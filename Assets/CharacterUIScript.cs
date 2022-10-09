@@ -26,7 +26,7 @@ public class CharacterUIScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        setStatusText(stats.name + " \r\n" + "Level: " + stats.level);
+        //setStatusText(stats.name + " \r\n" + "Level: " + stats.level);
     }
 
     public void setStatusText(string newtext)
@@ -51,22 +51,7 @@ public class CharacterUIScript : MonoBehaviour
             this.stats = this.gameObject.gameObject.GetComponent<EnemyBehavior>().stats;
         }
         return;
-        if (this.gameObject.name == "char1" && party.char1 != null)
-        {
-            this.stats = party.char1;
-        }
-        else if (this.gameObject.name == "char2" && party.char2 != null)
-        {
-            this.stats = party.char1;
-        }
-        else if (this.gameObject.name == "char3" && party.char3 != null)
-        {
-            this.stats = party.char1;
-        }
-        else if (this.gameObject.name == "char4" && party.char4 != null)
-        {
-            this.stats = party.char1;
-        }
+
     }
 
     private void OnMouseDown()

@@ -6,10 +6,7 @@ public class EnemyBehavior : CharacterBehavior {
 
     void OnMouseDown()
     {
-        if (CombatManager.currentDungeonState == CombatManager.DungeonState.COMBAT)
-        {
-            takeDamage(CombatManager.currentClicker.getDamage());
-        }
+        takeDamage((int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE) );
         Debug.Log("eb click");
     }
 
@@ -47,9 +44,8 @@ public class EnemyBehavior : CharacterBehavior {
     {
         if (CombatManager.currentDungeonState == CombatManager.DungeonState.RUNNING)
         {
-            Debug.Log("enemy still");
             Vector3 movement = new Vector3(-1f, 0f, 0f);
-            this.gameObject.transform.position += movement * Time.deltaTime * DungeonUIBehaviorScript.runspeed;
+            this.gameObject.transform.position += movement * Time.deltaTime * (float)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) * DungeonUIBehaviorScript.pixelsPerMeter;
         }
 
 
@@ -57,7 +53,6 @@ public class EnemyBehavior : CharacterBehavior {
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        Debug.Log("collision");
         CombatManager.currentDungeonState = CombatManager.DungeonState.COMBAT;
     }
 

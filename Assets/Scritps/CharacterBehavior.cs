@@ -55,11 +55,7 @@ public class CharacterBehavior : MonoBehaviour {
 
     public virtual void attack()
     {
-        CharacterBehavior target = CombatManager.GetWeakestEnemy(this);
-        if (target != null)
-        {
-            target.takeDamage(CombatManager.currentChar.getDamage());
-        }
+
     }
 
     public virtual void performAction()
@@ -104,7 +100,7 @@ public class CharacterBehavior : MonoBehaviour {
     public void takeDamage(int damage)
     {
         //damage -= stats.defense;
-        if (damage <= 0) damage = 1;
+        //if (damage <= 0) damage = 1;
         stats.currentHP -= damage;
         if (stats.currentHP < 0) stats.currentHP = 0;
         TakeDamageEvent.Invoke();
@@ -136,7 +132,6 @@ public class CharacterBehavior : MonoBehaviour {
 
     public virtual void OnDestroy()
     {
-        Debug.Log(gameObject.name + " destroyed");
     }
 
     public void applyXP(int xpValue)

@@ -33,6 +33,11 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  attackPower: 0
+  attackSpeed: 0.5
+  clickDamage: 1
+  moveSpeed: 1
+  passiveDamage: 0
 --- !u!1 &5724492427521037990
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +308,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FriendlyVariant_BaseCharacterObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 7286561004228180322, guid: c36c598a7c263a04aa08c0c409ab78e4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7351114373397619766, guid: c36c598a7c263a04aa08c0c409ab78e4,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7351114373397619766, guid: c36c598a7c263a04aa08c0c409ab78e4,
         type: 3}

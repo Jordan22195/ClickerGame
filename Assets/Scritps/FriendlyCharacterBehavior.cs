@@ -6,18 +6,31 @@ using UnityEngine.UI;
 public class FriendlyCharacterBehavior : CharacterBehavior {
 
 
+    public int attackPower = 0;
+    public float attackSpeed = 0.5f; // attacks per second
+    public int clickDamage = 1;
+    public double moveSpeed = 1; // meters per second. todo: make this number make sense
+    public int passiveDamage = 0; //dps?
+
     // Use this for initialization
     public override void Start () {
         loadChar();
+        attackPower = 1;
+        attackSpeed = 0.5f; // attacks per second
+        clickDamage = 1;
+        moveSpeed = 1; // meters per second. todo: make this number make sense
+        passiveDamage = 0; //dps?
         //CharacterType = chartype.FRIENDLY;
         base.Start();
+        
     }
 	
 	// Update is called once per frame
 	public override void Update () {
-
         //statusText.GetComponent<Text>().text = "HP: " + me.HP.ToString();
         base.Update();
+        attackSpeed = 0.5f;
+        Debug.Log(attackSpeed);
     }
 
     public override void OnEnable()
@@ -30,10 +43,19 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
     {
 
     }
+
+    public override void attack()
+    {
+        CharacterBehavior target = CombatManager.GetWeakestEnemy(this);
+        if (target != null)
+        {
+            target.takeDamage((int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER));
+        }
+    }
+
     public void incHP()
     {
         stats.currentHP--;
-        Debug.Log(this.gameObject.name + " " + stats.currentHP.ToString());
     }
 
     public void loadChar()
@@ -103,21 +125,15 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
     {
         base.die();
         return;
-        CombatManager.DeRegisterCharacter(this);
-        this.gameObject.transform.rotation =
-            Quaternion.Lerp(this.gameObject.transform.rotation,
-            Quaternion.Euler(
-                transform.eulerAngles + new Vector3(0, 0, 90f)), 1f);
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("friendly collision");
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log("friendly trigger");
     }
 
 }

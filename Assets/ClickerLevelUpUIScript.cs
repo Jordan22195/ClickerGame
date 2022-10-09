@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class ClickerLevelUpUIScript : LevelUpUIScript
+public class ClickerLevelUpUIScript : UpgradeMenuBehaviorScript
 {
-    public override void Start()
-    {
-        CombatManager.currentClicker = this;
-    }
+
 }
 

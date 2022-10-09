@@ -10,8 +10,7 @@ public class CombatManager : MonoBehaviour {
 
     public double TICK_TIME = 0.25;
 
-    public static LevelUpUIScript currentChar;
-    public static LevelUpUIScript currentClicker;
+    public static UpgradeMenuBehaviorScript characterStatUpgrades;
 
     private static List<CharacterBehavior> Characters = new List<CharacterBehavior>();
     private static List<CharacterBehavior> FriendlyCharacters = new List<CharacterBehavior>();
@@ -90,6 +89,23 @@ public class CombatManager : MonoBehaviour {
 
     }
 
+        public static double getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType statType)
+    {
+        double baseStat = 0;
+        FriendlyCharacterBehavior c = (FriendlyCharacterBehavior)FriendlyCharacters[0];
+        if (statType == UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER) baseStat = c.attackPower;
+        else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED) baseStat = c.attackSpeed;
+        else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE) baseStat = c.clickDamage;
+        else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) baseStat = c.moveSpeed;
+        else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.PASSIVE_DAMAGE) baseStat = c.passiveDamage;
+
+        baseStat += characterStatUpgrades.getUpgradeLinearIncrease(statType);
+        baseStat *= characterStatUpgrades.getUpgradeMultiplier(statType);
+
+        return baseStat;
+    }
+
+
     public void friendlyAttack()
     {
         getNextCharacter();
@@ -101,7 +117,6 @@ public class CombatManager : MonoBehaviour {
     }
 
     double nextAttack = 0;
-    public double rate = 0;
     void CombatStateMachine()
     {
 
@@ -117,6 +132,7 @@ public class CombatManager : MonoBehaviour {
         if (currentDungeonState == DungeonState.RUNNING)
         {
             //Debug.Log("running");
+            nextAttack = Time.time + (1/getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED)); 
         }
         else if (currentDungeonState == DungeonState.COMBAT)
         {
@@ -133,8 +149,7 @@ public class CombatManager : MonoBehaviour {
             }
             if(Time.time >= nextAttack)
             {
-                nextAttack = Time.time + rate;
-                Debug.Log("auto attack");
+                nextAttack = Time.time + (1/ getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED)); 
                 friendlyAttack();
             }
                 //perform action
@@ -149,8 +164,6 @@ public class CombatManager : MonoBehaviour {
             }
             if (EnemyCharacters.Count == 0)
             {
-                Debug.Log("enemy count = 0");
-                Debug.Log("enter enter win");
                 NextTick = DateTime.Now.AddSeconds(TICK_TIME);
                 currentDungeonState = DungeonState.WIN;
             }
@@ -172,7 +185,6 @@ public class CombatManager : MonoBehaviour {
         }
         else if (currentDungeonState == DungeonState.WIN)
         {
-            Debug.Log("enter enter win");
             if (cleanupEnemyPrefabs())
             {
                 currentDungeonState = DungeonState.STARTING;
@@ -187,7 +199,6 @@ public class CombatManager : MonoBehaviour {
         int numTicks = (int)((1.0 / TICK_TIME) * (double)numSeconds);
         for (int ticks = 0; ticks < numTicks; ticks++)
         {
-            Debug.Log("SimTick " + ticks);
             CombatStateMachine();
         }
     }
@@ -225,7 +236,6 @@ public class CombatManager : MonoBehaviour {
 
     public static void RegisterCharacter(CharacterBehavior character)
     {
-        Debug.Log("register: " + character.name);
         Characters.Add(character);
         if (character.CharacterType == CharacterBehavior.chartype.FRIENDLY)
         {
@@ -240,7 +250,6 @@ public class CombatManager : MonoBehaviour {
 
     public static void DeRegisterCharacter(CharacterBehavior character)
     {
-        Debug.Log("de-register: " + character.name);
         Characters.Remove(character);
 
         if (character.CharacterType == CharacterBehavior.chartype.FRIENDLY)
@@ -311,7 +320,6 @@ public class CombatManager : MonoBehaviour {
 
     public bool cleanupEnemyPrefabs()
     {
-        Debug.Log("cleanup enemy prefab");
         if(nextDungeonTickCounter == 2)
         {
             DungeonWinEvent.Invoke();
@@ -397,18 +405,14 @@ public class CombatManager : MonoBehaviour {
             totalSpawnLevel = (int)Math.Pow(3.0, Math.Log(Math.Floor((double)currentLevel - 1.0) / 5, 2.0));
 
         }
-        Debug.Log("total spawn level " + totalSpawnLevel);
         int maxSpawn = 1;
         if(totalSpawnLevel < maxSpawn)
         {
             maxSpawn = totalSpawnLevel;
         }
-        Debug.Log("max spawn " + maxSpawn);
         //inclusive min, non inclusive max
         int spawnCount = rand.Next(1, maxSpawn+1);
-        Debug.Log("spawnCount " + spawnCount);
         int averageLevel = totalSpawnLevel / spawnCount;
-        Debug.Log("averageLevel " + averageLevel);
         for (int i = 0; i < spawnCount; i++)
         {
             instantiateEnemy(EnemyPrefab, i, averageLevel);

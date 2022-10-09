@@ -13,7 +13,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
     public GameObject backgroundB;
     public static bool autoAdvanceLevel = false;
 
-    public static float runspeed = 500f;
+    public static float pixelsPerMeter = 500f;
 
     private Text levelText;
 
@@ -38,8 +38,8 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
         {
             //Debug.Log("run");
             Vector3 movement = new Vector3(-1f, 0f, 0f);
-            backgroundA.transform.position += movement * Time.deltaTime * runspeed;
-            backgroundB.transform.position += movement * Time.deltaTime * runspeed;
+            backgroundA.transform.position += movement * Time.deltaTime * (float)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) * pixelsPerMeter;
+            backgroundB.transform.position += movement * Time.deltaTime * (float)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) * pixelsPerMeter;
         }
 
         if(backgroundA.transform.position.x < inFramePos.x && !backgroundA.GetComponent<SpriteRenderer>().isVisible)
