@@ -43,4 +43,26 @@ public class EnemyBehavior : CharacterBehavior {
 
     }
 
+    public override void Update()
+    {
+        if (CombatManager.currentDungeonState == CombatManager.DungeonState.RUNNING)
+        {
+            Debug.Log("enemy still");
+            Vector3 movement = new Vector3(-1f, 0f, 0f);
+            this.gameObject.transform.position += movement * Time.deltaTime * DungeonUIBehaviorScript.runspeed;
+        }
+
+
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        Debug.Log("collision");
+        CombatManager.currentDungeonState = CombatManager.DungeonState.COMBAT;
+    }
+
+
+
+
+
 }

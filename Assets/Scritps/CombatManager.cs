@@ -40,7 +40,7 @@ public class CombatManager : MonoBehaviour {
     private int nextDungeonTickCounter = 0;
     System.Random rand = new System.Random();
 
-    public enum DungeonState { STARTING, COMBAT, EXITING, WIN, OTHER }
+    public enum DungeonState { STARTING, COMBAT, RUNNING, EXITING, WIN, OTHER }
     public static DungeonState currentDungeonState;
 
 
@@ -111,9 +111,12 @@ public class CombatManager : MonoBehaviour {
  
             Debug.Log("start level");
             startDungeonLevel();
-            Debug.Log("enter combat");
-            currentDungeonState = DungeonState.COMBAT;
+            currentDungeonState = DungeonState.RUNNING;
 
+        }
+        if (currentDungeonState == DungeonState.RUNNING)
+        {
+            //Debug.Log("running");
         }
         else if (currentDungeonState == DungeonState.COMBAT)
         {

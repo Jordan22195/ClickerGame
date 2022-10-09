@@ -110,5 +110,14 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
                 transform.eulerAngles + new Vector3(0, 0, 90f)), 1f);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("friendly collision");
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        Debug.Log("friendly trigger");
+    }
 
 }

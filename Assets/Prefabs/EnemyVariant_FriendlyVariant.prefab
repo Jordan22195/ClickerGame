@@ -67,6 +67,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2187918943554385748, guid: b1a890de920cdcd49ad6964ccec18968,
         type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2187918943554385748, guid: b1a890de920cdcd49ad6964ccec18968,
+        type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
       value: 797
       objectReference: {fileID: 0}
