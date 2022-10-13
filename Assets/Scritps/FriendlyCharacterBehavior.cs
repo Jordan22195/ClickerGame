@@ -49,7 +49,9 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
         CharacterBehavior target = CombatManager.GetWeakestEnemy(this);
         if (target != null)
         {
-            target.takeDamage((int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER));
+            int damage = (int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
+            CombatManager.updateDPS(damage);
+            target.takeDamage(damage);
         }
     }
 

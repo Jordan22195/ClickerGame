@@ -29,7 +29,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
         type: 3}
+      propertyPath: maxLevel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
+        type: 3}
       propertyPath: bonusType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
+        type: 3}
+      propertyPath: BonusPerLevel
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
+        type: 3}
+      propertyPath: bonusScaleType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
@@ -314,6 +329,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
         type: 3}
+      propertyPath: maxLevel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
+        type: 3}
       propertyPath: bonusType
       value: 3
       objectReference: {fileID: 0}
@@ -469,6 +489,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
         type: 3}
+      propertyPath: maxLevel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
+        type: 3}
       propertyPath: bonusType
       value: 2
       objectReference: {fileID: 0}
@@ -621,6 +646,21 @@ PrefabInstance:
         type: 3}
       propertyPath: Name
       value: A little Faster
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
+        type: 3}
+      propertyPath: maxLevel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
+        type: 3}
+      propertyPath: BonusPerLevel
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
+        type: 3}
+      propertyPath: bonusScaleType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9208873952577660797, guid: 0a58912f7ce853745be8677bd1de0189,
         type: 3}

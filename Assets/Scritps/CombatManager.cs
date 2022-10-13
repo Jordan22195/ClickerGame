@@ -5,6 +5,7 @@ using System;
 using UnityEngine.Events;
 using System.Threading;
 using UnityEngine.SceneManagement;
+using Assets.Scritps;
 
 public class CombatManager : MonoBehaviour {
 
@@ -43,8 +44,47 @@ public class CombatManager : MonoBehaviour {
     public static DungeonState currentDungeonState;
 
 
+    public static int damageToLevelUp;
+
+    public static DPSClass dps;
+
+    static float highestDps = 0;
+
+    enum ASCENSION_LEVEL
+    {
+        F = 0,
+        E,
+        D,
+        C,
+        B,
+        A,
+        S,
+        SS,
+        SSS
+    }
+
+
+    public static void updateDPS(int d)
+    {
+        dps.addDamage(d);
+    }
+
+    public static bool canAscend()
+    {
+        return highestDps >= damageToLevelUp;
+    }
+
+    public static float getPowerBarPercent()
+    {
+        float damage =  dps.getDPS();
+        if (damage > highestDps) highestDps = damage;
+        return damage / (float)damageToLevelUp;
+    }
+
     // Use this for initialization
     void Start () {
+        dps = new DPSClass();
+        damageToLevelUp = 100;
         Application.targetFrameRate = -1;
         NextTick = DateTime.Now.AddSeconds(1);
         currentLevel = 1;
@@ -73,6 +113,7 @@ public class CombatManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        Debug.Log("DPS: " + dps.getDPS().ToString());
         // 0.5 second game tick
         if (DateTime.Compare(DateTime.Now, NextTick) >= 0)
         {
@@ -89,11 +130,14 @@ public class CombatManager : MonoBehaviour {
 
     }
 
-        public static double getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType statType)
+    public static double getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType statType)
     {
         double baseStat = 0;
         FriendlyCharacterBehavior c = (FriendlyCharacterBehavior)FriendlyCharacters[0];
-        if (statType == UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER) baseStat = c.attackPower;
+        if (statType == UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER)
+        {
+            baseStat = Globals.getBaseDamage();
+        }
         else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED) baseStat = c.attackSpeed;
         else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE) baseStat = c.clickDamage;
         else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) baseStat = c.moveSpeed;
@@ -405,6 +449,7 @@ public class CombatManager : MonoBehaviour {
             totalSpawnLevel = (int)Math.Pow(3.0, Math.Log(Math.Floor((double)currentLevel - 1.0) / 5, 2.0));
 
         }
+        totalSpawnLevel = 1000;
         int maxSpawn = 1;
         if(totalSpawnLevel < maxSpawn)
         {
@@ -428,5 +473,14 @@ public class CombatManager : MonoBehaviour {
             c.applyXP(xp);
         }
         gold += xp;
+    }
+
+    void OnMouseDown()
+    {
+        int d = (int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE);
+        if (EnemyCharacters.Count == 0) return;
+        EnemyCharacters[0].GetComponent<EnemyBehavior>().takeDamage(d);
+        updateDPS(d);
+        Debug.Log("screen click");
     }
 }

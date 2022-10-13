@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class DungeonUIBehaviorScript : MonoBehaviour {
 
@@ -12,6 +13,8 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
     public GameObject backgroundA;
     public GameObject backgroundB;
     public static bool autoAdvanceLevel = false;
+
+    public GameObject ascendButton;
 
     public static float pixelsPerMeter = 500f;
 
@@ -23,6 +26,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        ascendButton.SetActive(false);
         levelText = levelTextGameObject.GetComponent<Text>();
         inFramePos = backgroundA.transform.position;
         outOfFramePos = backgroundB.transform.position;
@@ -33,7 +37,10 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
 	void Update () {
         incrimentLevelText();
         goldText.text = "Gold: " + CombatManager.gold.ToString();
-
+        if(CombatManager.canAscend())
+        {
+            ascendButton.SetActive(true);
+        }
         if(CombatManager.currentDungeonState == CombatManager.DungeonState.RUNNING )
         {
             //Debug.Log("run");
@@ -61,5 +68,10 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
     public void onAutoAdvanceToggle()
     {
         autoAdvanceLevel = autoAdvanceToggle.GetComponent<Toggle>().isOn;
+    }
+
+    public void OpenDungeonScene()
+    {
+        SceneManager.LoadScene("AscentionScreen", LoadSceneMode.Single);
     }
 }
