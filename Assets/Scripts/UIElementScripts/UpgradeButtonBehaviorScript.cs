@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+
+[System.Serializable]
 public class UpgradeButtonBehaviorScript : MonoBehaviour
 {
 
@@ -27,6 +29,13 @@ public class UpgradeButtonBehaviorScript : MonoBehaviour
     public enum EnumScaleType { LINEAR, EXPONENTIAL};
     public enum EnumBonusType { MOVEMENT_SPEED, ATTACK_SPEED, ATTACK_POWER, CLICK_DAMAGE, PASSIVE_DAMAGE}
 
+    public void ToJSON()
+    {
+        Debug.Log("ToJSON");
+        string s = JsonUtility.ToJson(this);
+        Debug.Log(s);
+        //return s;
+    }
 
     string bonusTypeEnumToString(EnumBonusType b)
     {

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scritps;
 
+
+
 public class FriendlyCharacterBehavior : MonoBehaviour
 {
 
@@ -142,7 +144,6 @@ public class FriendlyCharacterBehavior : MonoBehaviour
 
     public  void attack()
     {
-        Debug.Log("punch");
         EnemyBehavior target = CombatManager.managerRef.getTargetEnemy();
         if (target != null)
         {

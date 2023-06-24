@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-
+[System.Serializable]
 public class UpgradeMenuBehaviorScript : MonoBehaviour
 {
 
-    public List<GameObject> upgrades;
+    public List<UpgradeButtonBehaviorScript> upgrades;
 
     public double getUpgradeLinearIncrease(UpgradeButtonBehaviorScript.EnumBonusType upgradeType)
     {
         double increase = 0;
-        foreach (GameObject u in upgrades)
+        foreach (UpgradeButtonBehaviorScript u in upgrades)
         {
             UpgradeButtonBehaviorScript upgrade = u.GetComponent<UpgradeButtonBehaviorScript>();
             if (upgrade.bonusType == upgradeType && upgrade.bonusScaleType == UpgradeButtonBehaviorScript.EnumScaleType.LINEAR)
@@ -27,7 +27,7 @@ public class UpgradeMenuBehaviorScript : MonoBehaviour
     public double getUpgradeMultiplier(UpgradeButtonBehaviorScript.EnumBonusType upgradeType)
     {
         double mult = 1;
-        foreach (GameObject u in upgrades)
+        foreach (UpgradeButtonBehaviorScript u in upgrades)
         {
             UpgradeButtonBehaviorScript upgrade = u.GetComponent<UpgradeButtonBehaviorScript>();
             if (upgrade.bonusType == upgradeType && upgrade.bonusScaleType == UpgradeButtonBehaviorScript.EnumScaleType.EXPONENTIAL)
@@ -48,5 +48,17 @@ public class UpgradeMenuBehaviorScript : MonoBehaviour
     void Update()
     {
      }
+
+    public void ToJSON()
+    {
+        foreach (UpgradeButtonBehaviorScript u in upgrades)
+        {
+            u.ToJSON();
+        }
+            Debug.Log("ToJSON");
+        string s = JsonUtility.ToJson(this);
+        Debug.Log(s);
+        //return s;
+    }
 
 }

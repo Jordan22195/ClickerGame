@@ -51,7 +51,6 @@ public class EnemyBehavior : MonoBehaviour
     void OnMouseDown()
     {
         takeDamage((int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE) );
-        Debug.Log("eb click");
     }
 
     public  void Start()
@@ -79,7 +78,6 @@ public class EnemyBehavior : MonoBehaviour
     {
         CombatManager.managerRef.applyXP(XPvalue);
         sprite.transform.Rotate(0, 0, 270f);
-        Debug.Log("die");
         enemyDieEvent.TriggerEvent();
 
         StartCoroutine(destroySelfCoroutine());
@@ -110,7 +108,6 @@ public class EnemyBehavior : MonoBehaviour
 
     public void takeDamage(int damage)
     {
-        Debug.Log("take damage");
         //damage -= stats.defense;
         //if (damage <= 0) damage = 1;
         stats.currentHP -= damage;
