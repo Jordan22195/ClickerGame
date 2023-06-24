@@ -18,27 +18,14 @@ MonoBehaviour:
   RedBar: {fileID: 5724492427521037990}
   floatingCombatTextPrefab: {fileID: 3419873720302801080, guid: b3f6daaebedbd474e99100cf7cd70228,
     type: 3}
-  TakeDamageEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 398631585}
-        m_TargetAssemblyTypeName: CharacterBehavior, Assembly-CSharp
-        m_MethodName: updateHPBar
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   attackPower: 0
   attackSpeed: 0.5
   clickDamage: 1
   moveSpeed: 1
   passiveDamage: 0
   sprite: {fileID: 1670682256514481326}
+  enemyTakeDamageEvent: {fileID: 11400000, guid: 6a7672c9d7af4614d88a37324a71d2f7,
+    type: 2}
 --- !u!114 &3213594138212169150
 MonoBehaviour:
   m_ObjectHideFlags: 0

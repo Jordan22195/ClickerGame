@@ -57,16 +57,11 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
         this.gameObject.transform.position += movement * (float)elapsedTime * (float)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) * DungeonUIBehaviorScript.pixelsPerMeter;
     }
 
-    public override void OnEnable()
+    public void OnEnable()
     {
         CharacterType = chartype.FRIENDLY;
-        base.OnEnable();
     }
 
-    public override void performAction()
-    {
-
-    }
 
     public void idleState()
     {
@@ -117,7 +112,7 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
     {
         Debug.Log("punch");
         animator.SetTrigger("punch");
-        CharacterBehavior target = CombatManager.getTargetEnemy(this);
+        EnemyBehavior target = CombatManager.getTargetEnemy();
         if (target != null)
         {
             
@@ -128,26 +123,7 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
     }
 
 
-    public override void OnDestroy()
-    {
-        //saveChar();
-        base.OnDestroy();
-    }
 
-    public override void die()
-    {
-        base.die();
-        return;
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-    }
 
     private void knockback()
     {

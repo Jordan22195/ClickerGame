@@ -38,7 +38,7 @@ public class CombatManager : MonoBehaviour {
     public UnityEvent EndDungeonEvent;
     public UnityEvent DungeonWinEvent;
 
-    public static CharacterBehavior targetEnemy;
+    public static EnemyBehavior targetEnemy;
 
     System.Random rand = new System.Random();
 
@@ -164,7 +164,7 @@ public class CombatManager : MonoBehaviour {
 
     }
 
-    public static CharacterBehavior getTargetEnemy(CharacterBehavior caller)
+    public static EnemyBehavior getTargetEnemy()
     {
         return targetEnemy;
     }
@@ -243,7 +243,7 @@ public class CombatManager : MonoBehaviour {
         gold += xp;
     }
 
-    public static void registerEnemy(CharacterBehavior e)
+    public static void registerEnemy(EnemyBehavior e)
     {
         targetEnemy = e;
     }

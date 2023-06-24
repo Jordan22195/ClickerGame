@@ -14,9 +14,7 @@ public class CharacterBehavior : MonoBehaviour {
     private GameObject SceneManagerRef;
     public GameObject statusText;
     private CombatManager manager;
-    public GameObject HPBar;
-    public GameObject RedBar;
-    public GameObject floatingCombatTextPrefab;
+
 
 
 
@@ -34,7 +32,6 @@ public class CharacterBehavior : MonoBehaviour {
         }
     }
 
-    public UnityEvent TakeDamageEvent;
 
     // Use this for initialization
     public virtual void Start() {
@@ -46,42 +43,9 @@ public class CharacterBehavior : MonoBehaviour {
        // setStatusText(currentHP.ToString() + " / " + stats.maxHP.ToString());
     }
 
-    public virtual void OnEnable()
-    {
-        CombatManager.RegisterCharacter(this);
-
-    }
-
     public virtual void attack()
     {
 
-    }
-
-    public virtual void performAction()
-    {
-        //manager.getEnemyList();
-        //raise attack event to do gui stuff and animations
-        statusText.GetComponent<Text>().text = "attack";
-        attack();
-
-    }
-
-    public virtual void die()
-    {
-        CombatManager.DeRegisterCharacter(this);
-        //this.gameObject.transform.rotation = 
-        //    Quaternion.Lerp(this.gameObject.transform.rotation, 
-        //    Quaternion.Euler(
-        //        transform.eulerAngles + new Vector3(0, 0, 270f)), 1f);
-        if(CharacterType == chartype.FRIENDLY)
-        {
-            this.gameObject.GetComponentInChildren<SpriteRenderer>().transform.Rotate(0, 0, 90f);
-
-        }
-        if (CharacterType == chartype.ENEMEY)
-        {
-            this.gameObject.GetComponentInChildren<SpriteRenderer>().transform.Rotate(0, 0, 270f);
-        }
     }
 
     public void setStatusText(string status)
@@ -96,43 +60,6 @@ public class CharacterBehavior : MonoBehaviour {
         CombatManager.DeRegisterCharacter(this);
     }
 
-    public void takeDamage(int damage)
-    {
-        Debug.Log("take damage");
-        //damage -= stats.defense;
-        //if (damage <= 0) damage = 1;
-        stats.currentHP -= damage;
-        if (stats.currentHP < 0) stats.currentHP = 0;
-        TakeDamageEvent.Invoke();
-        //setStatusText("-" + damage.ToString());
-
-        GameObject clone = Instantiate(floatingCombatTextPrefab, 
-            this.gameObject.transform.position, 
-            Quaternion.identity);
-        clone.GetComponent<floatingCombatTextBehavior>().setFloatingCombatText("-" + damage);
-
-        if (stats.currentHP <= 0)
-        {
-            die();
-        }
-    }
-
-    //called with TakeDamageEvent
-    public void updateHPBar()
-    {
-        float p = (float)stats.currentHP / (float)stats.maxHP;
-        Vector3 barscale = RedBar.transform.localScale;
-        Vector3 barposition = RedBar.transform.localPosition;
-        float barwidth = RedBar.GetComponent<SpriteRenderer>().size.x * barscale.x;
-        barscale.x = barscale.x * p;
-        barposition.x = RedBar.transform.localPosition.x - ((1 - p) * barwidth / 2);
-        HPBar.transform.localScale = barscale;
-        HPBar.transform.localPosition = barposition;
-    }
-
-    public virtual void OnDestroy()
-    {
-    }
 
     public void applyXP(int xpValue)
     {

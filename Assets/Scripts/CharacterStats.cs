@@ -82,7 +82,7 @@ public class CharacterStats {
     public void setLevelandStats(int newlevel)
     {
         _level = newlevel;
-        _maxHP = 1; // newlevel * 10;
+        _maxHP =  newlevel * 10;
         _attack = (newlevel * 1)+1;
         _defense = newlevel * 1;
 
