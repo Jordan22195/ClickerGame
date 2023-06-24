@@ -18,8 +18,8 @@ public class CombatManager : MonoBehaviour {
     private static List<CharacterBehavior> EnemyCharacters = new List<CharacterBehavior>();
 
     public GameEvent combatManagerInitFinished;
+    public static int gold = 50000;
 
-    public static int gold = 500;
 
     private List<GameObject> enemyPrefabClones = new List<GameObject>();
 

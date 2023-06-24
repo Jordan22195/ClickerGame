@@ -27,7 +27,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
 
     public GameObject ascendButton;
 
-    public static float pixelsPerMeter = 500f;
+    public static float pixelsPerMeter = 320f;
 
     public static int chunksLoaded=-3;
 
@@ -107,7 +107,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
 
     public void incrimentLevelText()
     {
-        levelText.text = "Level: " + CombatManager.currentLevel.ToString();
+        levelText.text = (int)(distanceTraveledInPixels/pixelsPerMeter) + "m";
     }
 
     public void onAutoAdvanceToggle()
@@ -128,7 +128,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
         for (int i = 0; i < 10; i ++)
         {
             int x = Random.Range(xLow, xHigh);
-            int z = Random.Range(0, 15000);
+            int z = Random.Range(200, 15000);
             generateGroundObject(Tree,  z, x);
         }
 
@@ -137,7 +137,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
             int index = Random.Range(0, Clouds.Count - 1);
             int x = Random.Range(xLow, xHigh);
             int z = Random.Range(5000, 35000);
-            int y = Random.Range(0, 20000);
+            int y = Random.Range(200, 20000);
             generateObject(Clouds[index], y, z, x);
         }
 
