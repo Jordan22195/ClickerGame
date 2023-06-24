@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scritps;
 
-public class FriendlyCharacterBehavior : CharacterBehavior {
+public class FriendlyCharacterBehavior : MonoBehaviour
+{
 
     enum animationState
     {
@@ -22,6 +24,32 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
     public GameObject sprite;
     private Animator animator;
 
+    public enum chartype { FRIENDLY, ENEMEY }
+
+    public chartype CharacterType = chartype.ENEMEY;
+
+    private GameObject SceneManagerRef;
+    public GameObject statusText;
+    private CombatManager manager;
+
+
+
+
+    private CharacterStats _stats = new CharacterStats();
+
+    public virtual CharacterStats stats
+    {
+        get
+        {
+            return _stats;
+        }
+        set
+        {
+            _stats = value;
+        }
+    }
+
+
     void OnMouseDown()
     {
         knockback();
@@ -30,7 +58,8 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
     }
 
     // Use this for initialization
-    public override void Start () {
+    public void Start () {
+        stats.currentHP = stats.maxHP;
         attackPower = 1;
         primaryAttackSpeed = 0.5f; // attacks per second
         clickDamage = 1;
@@ -39,23 +68,19 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
         //CharacterType = chartype.FRIENDLY;
         animator = sprite.GetComponent<Animator>();
         runState();
-        base.Start();
 
 
     }
 	
-	// Update is called once per frame
-	public override void Update () {
-        //statusText.GetComponent<Text>().text = "HP: " + me.HP.ToString();
-        base.Update();
-    
-        primaryAttackSpeed = 0.5f;
-    }
 
     void run(float elapsedTime)
     {
         Vector3 movement = new Vector3(1f, 0f, 0f);
-        this.gameObject.transform.position += movement * (float)elapsedTime * (float)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) * DungeonUIBehaviorScript.pixelsPerMeter;
+        this.gameObject.transform.position += 
+            movement * 
+            (float)elapsedTime * 
+            (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) * 
+            Globals.pixelsPerMeter;
     }
 
     public void OnEnable()
@@ -115,21 +140,36 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
         }
     }
 
-    public override void attack()
+    public  void attack()
     {
         Debug.Log("punch");
-        EnemyBehavior target = CombatManager.getTargetEnemy();
+        EnemyBehavior target = CombatManager.managerRef.getTargetEnemy();
         if (target != null)
         {
             
-            int damage = (int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
-            CombatManager.updateDPS(damage);
+            int damage = (int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
+            CombatManager.managerRef.updateDPS(damage);
             target.takeDamage(damage);
             animator.SetTrigger("punch");
 
         }
     }
 
+
+
+
+    public void setStatusText(string status)
+    {
+        statusText.GetComponent<Text>().text = status;
+    }
+
+
+
+
+    public void applyXP(int xpValue)
+    {
+        stats.xp += xpValue;
+    }
 
 
 

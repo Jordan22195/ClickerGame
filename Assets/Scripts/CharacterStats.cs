@@ -124,11 +124,4 @@ public class CharacterStats {
 }
 
 
-public class CharacterStatsSpeedCompare : IComparer<CharacterBehavior>
-{
-    public int Compare(CharacterBehavior x, CharacterBehavior y)
-    {
-        return x.stats.speed - y.stats.speed;
-    }
-}
 

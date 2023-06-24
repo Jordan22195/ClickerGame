@@ -9,6 +9,10 @@ namespace Assets.Scritps
 {
     static class Globals
     {
+
+        public static float pixelsPerMeter = 320f;
+        public static int chunkSize = 1920;
+        public static int blockSize = 1000;
         public static GameObject cameraObject;
         public static int[] baseDamageTable;
 

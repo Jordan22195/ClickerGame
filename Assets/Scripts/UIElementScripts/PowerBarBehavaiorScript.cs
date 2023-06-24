@@ -19,7 +19,7 @@ public class PowerBarBehavaiorScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float p = CombatManager.getPowerBarPercent();
+        float p = CombatManager.managerRef.getPowerBarPercent();
         updateBar(p);
     }
 

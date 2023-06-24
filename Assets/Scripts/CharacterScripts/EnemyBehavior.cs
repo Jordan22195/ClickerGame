@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class EnemyBehavior : CharacterBehavior {
+public class EnemyBehavior : MonoBehaviour
+{
 
     DateTime despawnTime;
 
@@ -19,15 +21,43 @@ public class EnemyBehavior : CharacterBehavior {
 
     private bool combatStarted = false;
 
+
+    public enum chartype { FRIENDLY, ENEMEY }
+
+    public chartype CharacterType = chartype.ENEMEY;
+
+    private GameObject SceneManagerRef;
+    public GameObject statusText;
+    private CombatManager manager;
+
+
+
+
+    private CharacterStats _stats = new CharacterStats();
+
+    public virtual CharacterStats stats
+    {
+        get
+        {
+            return _stats;
+        }
+        set
+        {
+            _stats = value;
+        }
+    }
+
+
     void OnMouseDown()
     {
-        takeDamage((int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE) );
+        takeDamage((int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE) );
         Debug.Log("eb click");
     }
 
-    public  override void Start()
+    public  void Start()
     {
-        base.Start();
+        stats.currentHP = stats.maxHP;
+
         HPBar.SetActive(false);
         RedBar.SetActive(false);
     }
@@ -47,7 +77,7 @@ public class EnemyBehavior : CharacterBehavior {
 
     public void die()
     {
-        CombatManager.applyXP(XPvalue);
+        CombatManager.managerRef.applyXP(XPvalue);
         sprite.transform.Rotate(0, 0, 270f);
         Debug.Log("die");
         enemyDieEvent.TriggerEvent();
@@ -77,11 +107,6 @@ public class EnemyBehavior : CharacterBehavior {
         HPBar.transform.localPosition = barposition;
     }
 
-    public override void Update()
-    {
-     
-
-    }
 
     public void takeDamage(int damage)
     {
@@ -111,7 +136,7 @@ public class EnemyBehavior : CharacterBehavior {
         {
             combatStarted = true;
             enemyCollisionEvent.TriggerEvent();
-            CombatManager.registerEnemy(this);
+            CombatManager.managerRef.registerEnemy(this);
 
             HPBar.SetActive(true);
             RedBar.SetActive(true);
@@ -120,6 +145,24 @@ public class EnemyBehavior : CharacterBehavior {
     }
 
 
+
+    public virtual void attack()
+    {
+
+    }
+
+    public void setStatusText(string status)
+    {
+        statusText.GetComponent<Text>().text = status;
+    }
+
+
+
+
+    public void applyXP(int xpValue)
+    {
+        stats.xp += xpValue;
+    }
 
 
 

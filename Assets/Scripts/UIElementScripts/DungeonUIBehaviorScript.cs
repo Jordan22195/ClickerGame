@@ -12,7 +12,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
     public GameObject autoAdvanceToggle;
     public TextMeshProUGUI goldText;
     public GameObject cameraObj;
-    public static bool autoAdvanceLevel = false;
+    public bool autoAdvanceLevel = false;
     public List<GameObject> groundClutterSprites;
     public List<GameObject> Clouds;
     public GameObject grassBlock;
@@ -23,24 +23,21 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
     public int floorYPos;
 
     public int backgroundDensity;
-    public static int floor = -800;
+    public int floor = -800;
 
     public GameObject ascendButton;
 
-    public static float pixelsPerMeter = 320f;
 
-    public static int chunksLoaded=-3;
+    public int chunksLoaded=-3;
 
-    public static Vector3 cameraStartPos;
-    public static int distanceTraveledInPixels;
-    public static int distanceTraveledInChunks;
+    public Vector3 cameraStartPos;
+    public int distanceTraveledInPixels;
+    public int distanceTraveledInChunks;
     private Text levelText;
 
     Vector3 inFramePos;
     Vector3 outOfFramePos;
 
-    public static int chunkSize = 1920;
-    public static int blockSize = 1000;
 
     // Use this for initialization
     void Start () {
@@ -55,8 +52,8 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         incrimentLevelText();
-        goldText.text = "Gold: " + CombatManager.gold.ToString();
-        if(CombatManager.canAscend())
+        goldText.text = "Gold: " + CombatManager.managerRef.gold.ToString();
+        if(CombatManager.managerRef.canAscend())
         {
             //ascendButton.SetActive(true);
         }
@@ -98,8 +95,8 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
         cameraObj.transform.position += 
             movement * 
             elapsedTime * 
-            (float)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
-            pixelsPerMeter;
+            (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
+            Globals.pixelsPerMeter;
         distanceTraveledInPixels = (int)(cameraObj.transform.position.x - cameraStartPos.x);
         distanceTraveledInChunks = distanceTraveledInPixels / 1920;
     }
@@ -107,7 +104,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
 
     public void incrimentLevelText()
     {
-        levelText.text = (int)(distanceTraveledInPixels/pixelsPerMeter) + "m";
+        levelText.text = (int)(distanceTraveledInPixels/Globals.pixelsPerMeter) + "m";
     }
 
     public void onAutoAdvanceToggle()
@@ -123,7 +120,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
     public void generateChunk()
     {
         int xLow = (chunksLoaded * 1920) + (int)cameraStartPos.x;
-        int xHigh = xLow + chunkSize;
+        int xHigh = xLow + Globals.chunkSize;
 
         for (int i = 0; i < 10; i ++)
         {
@@ -165,7 +162,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
 
     }
 
-    public static GameObject generateGroundObject(GameObject prefab, int z, int x )
+    public GameObject generateGroundObject(GameObject prefab, int z, int x )
     {
 
         SpriteRenderer spriteRenderer = prefab.GetComponent<SpriteRenderer>();

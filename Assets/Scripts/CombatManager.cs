@@ -11,15 +11,17 @@ public class CombatManager : MonoBehaviour {
 
     public double TICK_TIME = 0.25;
 
-    public static UpgradeMenuBehaviorScript characterStatUpgrades;
+    public UpgradeMenuBehaviorScript characterStatUpgrades;
 
-    private static List<CharacterBehavior> Characters = new List<CharacterBehavior>();
-    private static CharacterBehavior playerCharacter;
-    private static List<CharacterBehavior> EnemyCharacters = new List<CharacterBehavior>();
+    public DungeonUIBehaviorScript dungeonUI;
+
+    private FriendlyCharacterBehavior playerCharacter;
+    private List<EnemyBehavior> EnemyCharacters = new List<EnemyBehavior>();
 
     public GameEvent combatManagerInitFinished;
-    public static int gold = 50000;
+    public int gold = 50000;
 
+    public static CombatManager managerRef;
 
     private List<GameObject> enemyPrefabClones = new List<GameObject>();
 
@@ -28,25 +30,22 @@ public class CombatManager : MonoBehaviour {
 
     public GameObject CameraRef;
 
-    public static GameObject cameraObj;
+    public GameObject cameraObj;
 
-    public static int currentLevel = 1;
+    public int currentLevel = 1;
 
-    private CharacterBehavior nextChar;
     private DateTime NextTick;
 
-    public UnityEvent EndDungeonEvent;
-    public UnityEvent DungeonWinEvent;
 
-    public static EnemyBehavior targetEnemy;
+    public EnemyBehavior targetEnemy;
 
     System.Random rand = new System.Random();
 
 
 
-    public static int currencyToLevelUp = 100;
+    public int currencyToLevelUp = 100;
 
-    public static DPSClass dps;
+    public DPSClass dps;
 
 
     enum ASCENSION_LEVEL
@@ -63,23 +62,24 @@ public class CombatManager : MonoBehaviour {
     }
 
 
-    public static void updateDPS(int d)
+    public void updateDPS(int d)
     {
         dps.addDamage(d);
     }
 
-    public static bool canAscend()
+    public bool canAscend()
     {
         return gold >= currencyToLevelUp;
     }
 
-    public static float getPowerBarPercent()
+    public float getPowerBarPercent()
     {
         return gold / (float)currencyToLevelUp;
     }
 
     // Use this for initialization
     void Start () {
+        managerRef = this;
         cameraObj = CameraRef;
         dps = new DPSClass();
         currencyToLevelUp = 100;
@@ -102,7 +102,7 @@ public class CombatManager : MonoBehaviour {
 
     }
 
-    public static double getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType statType)
+    public double getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType statType)
     {
         double baseStat = 0;
         FriendlyCharacterBehavior c = (FriendlyCharacterBehavior)playerCharacter;
@@ -123,48 +123,16 @@ public class CombatManager : MonoBehaviour {
 
 
 
-    public static void clearCharacaterLists()
+    public void clearCharacaterLists()
     {
         EnemyCharacters.Clear();
-        Characters.Clear();
     }
 
-    public List<CharacterBehavior> getEnemyList()
-    {
-        return EnemyCharacters;
-    }
-
-    public static void RegisterCharacter(CharacterBehavior character)
-    {
-        Characters.Add(character);
-        if (character.CharacterType == CharacterBehavior.chartype.FRIENDLY)
-        {
-            playerCharacter = character;
-        }
-        else
-        {
-            EnemyCharacters.Add(character);
-        }
-        Characters.Sort(new CharacterStatsSpeedCompare());
-    }
-
-    public static void DeRegisterCharacter(CharacterBehavior character)
-    {
-        Characters.Remove(character);
-
-        if (character.CharacterType == CharacterBehavior.chartype.FRIENDLY)
-        {
-        }
-        else
-        {
-            EnemyCharacters.Remove(character);
-        }
 
 
 
-    }
 
-    public static EnemyBehavior getTargetEnemy()
+    public EnemyBehavior getTargetEnemy()
     {
         return targetEnemy;
     }
@@ -178,7 +146,7 @@ public class CombatManager : MonoBehaviour {
         }
 
         GameObject clone = Instantiate(friendlyPrefab,
-            new Vector3(DungeonUIBehaviorScript.cameraStartPos.x, -700, 0), 
+            new Vector3(Camera.main.transform.position.x, -700, 0), 
            Quaternion.identity);
         clone.name = name;
         playerCharacter =  clone.GetComponent<FriendlyCharacterBehavior>();
@@ -193,16 +161,16 @@ public class CombatManager : MonoBehaviour {
         }
         
         Vector3 pos = playerCharacter.gameObject.transform.position;
-        pos.x = DungeonUIBehaviorScript.cameraStartPos.x + (currentLevel * DungeonUIBehaviorScript.chunkSize);
+        pos.x = Camera.main.transform.position.x + (currentLevel * Globals.chunkSize);
         GameObject clone = Instantiate(enemyPrefab, pos, Quaternion.identity);
-        clone.GetComponent<CharacterBehavior>().stats.setLevelandStats(level);
+        clone.GetComponent<EnemyBehavior>().stats.setLevelandStats(level);
         enemyPrefabClones.Add(clone);
 
     }
 
     public void updateSpawns()
     {
-        while (currentLevel < DungeonUIBehaviorScript.chunksLoaded)
+        while (currentLevel < dungeonUI.chunksLoaded)
         {
             int totalSpawnLevel = 1;
             if (currentLevel >= 1 && currentLevel <= 5)
@@ -237,13 +205,13 @@ public class CombatManager : MonoBehaviour {
 
     }
 
-    public static void applyXP(int xp)
+    public void applyXP(int xp)
     {
         playerCharacter.applyXP(xp);
         gold += xp;
     }
 
-    public static void registerEnemy(EnemyBehavior e)
+    public void registerEnemy(EnemyBehavior e)
     {
         targetEnemy = e;
     }
@@ -251,7 +219,7 @@ public class CombatManager : MonoBehaviour {
 
     void OnMouseDown()
     {
-        int d = (int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE);
+        int d = (int)getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE);
         if (EnemyCharacters.Count == 0) return;
         EnemyCharacters[0].GetComponent<EnemyBehavior>().takeDamage(d);
         updateDPS(d);

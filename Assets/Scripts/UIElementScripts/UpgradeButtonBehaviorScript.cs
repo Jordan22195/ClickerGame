@@ -91,11 +91,11 @@ public class UpgradeButtonBehaviorScript : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        if (CombatManager.gold >= cost && level < maxLevel)
+        if (CombatManager.managerRef.gold >= cost && level < maxLevel)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDown;
 
-            CombatManager.gold -= cost;
+            CombatManager.managerRef.gold -= cost;
             if (costScaleType == EnumScaleType.LINEAR)
             {
                 cost += (int)costScaleFactor;
