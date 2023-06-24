@@ -178,7 +178,7 @@ public class CombatManager : MonoBehaviour {
         }
 
         GameObject clone = Instantiate(friendlyPrefab,
-            new Vector3(DungeonUIBehaviorScript.cameraStartPos.x-1000, -1383, 50), 
+            new Vector3(DungeonUIBehaviorScript.cameraStartPos.x, -700, 0), 
            Quaternion.identity);
         clone.name = name;
         playerCharacter =  clone.GetComponent<FriendlyCharacterBehavior>();

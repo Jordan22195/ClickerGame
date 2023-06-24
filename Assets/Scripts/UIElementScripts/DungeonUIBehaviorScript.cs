@@ -58,7 +58,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
         goldText.text = "Gold: " + CombatManager.gold.ToString();
         if(CombatManager.canAscend())
         {
-            ascendButton.SetActive(true);
+            //ascendButton.SetActive(true);
         }
 
         if(distanceTraveledInChunks > chunksLoaded -15)
