@@ -14,7 +14,8 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
 
 
     public int attackPower = 0;
-    public float attackSpeed = 0.5f; // attacks per second
+    public float primaryAttackSpeed = 0.5f; // attacks per second
+    public float secondaryAttackSpeed = .25f; // attacks per second
     public int clickDamage = 1;
     public double moveSpeed = 1; // meters per second. todo: make this number make sense
     public int passiveDamage = 0; //dps?
@@ -31,7 +32,7 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
     // Use this for initialization
     public override void Start () {
         attackPower = 1;
-        attackSpeed = 0.5f; // attacks per second
+        primaryAttackSpeed = 0.5f; // attacks per second
         clickDamage = 1;
         moveSpeed = 1; // meters per second. todo: make this number make sense
         passiveDamage = 0; //dps?
@@ -48,7 +49,7 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
         //statusText.GetComponent<Text>().text = "HP: " + me.HP.ToString();
         base.Update();
     
-        attackSpeed = 0.5f;
+        primaryAttackSpeed = 0.5f;
     }
 
     void run(float elapsedTime)
@@ -66,22 +67,17 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
     public void idleState()
     {
         StopAllCoroutines();
-        animator.SetInteger("state", (int)animationState.IDLE);
+        animator.SetTrigger("idle");
     }
 
     public void runState()
     {
         StopAllCoroutines();
-        animator.SetInteger("state", (int)animationState.RUN);
+        animator.SetTrigger("run");
 
         StartCoroutine(runCoroutine());
     }
-    public void attackState()
-    {
-        StopAllCoroutines();
 
-        StartCoroutine(attackCoroutine());
-    }
 
     IEnumerator runCoroutine()
     {
@@ -97,21 +93,31 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
         }
     }
 
+    public void attackState()
+    {
+        StopAllCoroutines();
+        animator.SetTrigger("idle");
+
+        StartCoroutine(attackCoroutine());
+    }
+
     IEnumerator attackCoroutine()
     {
-        animator.SetInteger("state", (int)animationState.IDLE);
-        yield return new WaitForSeconds(attackSpeed);
+        
         while (true)
         {
+            yield return new WaitForSeconds(primaryAttackSpeed);
             attack();
-            yield return new WaitForSeconds(attackSpeed);
+            yield return new WaitForSeconds(secondaryAttackSpeed);
+            attack();
+            yield return new WaitForSeconds(primaryAttackSpeed);
+            animator.SetTrigger("idle");
         }
     }
 
     public override void attack()
     {
         Debug.Log("punch");
-        animator.SetTrigger("punch");
         EnemyBehavior target = CombatManager.getTargetEnemy();
         if (target != null)
         {
@@ -119,6 +125,8 @@ public class FriendlyCharacterBehavior : CharacterBehavior {
             int damage = (int)CombatManager.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
             CombatManager.updateDPS(damage);
             target.takeDamage(damage);
+            animator.SetTrigger("punch");
+
         }
     }
 
