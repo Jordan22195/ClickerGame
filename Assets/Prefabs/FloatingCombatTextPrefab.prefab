@@ -142,10 +142,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3419873720302801080}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04c3a140039100a43bd09ea8de4782f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 464c22e6a309a5a45bb1ceec2a1305c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   floatingCombatText: {fileID: 6269466441183540006}
+  timeToLive: 1
 --- !u!50 &7436615933628689151
 Rigidbody2D:
   serializedVersion: 4
