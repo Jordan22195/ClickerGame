@@ -6,7 +6,7 @@ using TMPro;
 [System.Serializable]
 public class UpgradeMenuBehaviorScript : MonoBehaviour
 {
-
+    [SerializeField]
     public List<UpgradeButtonBehaviorScript> upgrades;
 
     public double getUpgradeLinearIncrease(UpgradeButtonBehaviorScript.EnumBonusType upgradeType)
@@ -49,16 +49,22 @@ public class UpgradeMenuBehaviorScript : MonoBehaviour
     {
      }
 
-    public void ToJSON()
+
+    public void save()
     {
         foreach (UpgradeButtonBehaviorScript u in upgrades)
         {
-            u.ToJSON();
+            u.saveToFile();
         }
-            Debug.Log("ToJSON");
-        string s = JsonUtility.ToJson(this);
-        Debug.Log(s);
-        //return s;
     }
+
+    public void load()
+    {
+        foreach (UpgradeButtonBehaviorScript u in upgrades)
+        {
+            u.loadFromFile();
+        }
+    }
+
 
 }

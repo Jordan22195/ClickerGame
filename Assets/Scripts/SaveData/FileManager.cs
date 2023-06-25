@@ -11,6 +11,7 @@ public static class FileManager
 
         try
         {
+            Debug.Log("write to file " + fullPath);
             File.WriteAllText(fullPath, a_FileContents);
             return true;
         }
@@ -24,7 +25,12 @@ public static class FileManager
     public static bool LoadFromFile(string a_FileName, out string result)
     {
         var fullPath = Path.Combine(Application.persistentDataPath, a_FileName);
-
+        if(!File.Exists(fullPath))
+        {
+            result = "";
+            return false;
+            
+        }
         try
         {
             result = File.ReadAllText(fullPath);

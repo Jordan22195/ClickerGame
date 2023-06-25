@@ -4,9 +4,8 @@ using UnityEngine;
 using TMPro;
 
 [System.Serializable]
-public class UpgradeButtonBehaviorScript : MonoBehaviour
+public class UpgradeButtonBehaviorScript : SaveableData
 {
-
 
 
     public string Name;
@@ -28,14 +27,11 @@ public class UpgradeButtonBehaviorScript : MonoBehaviour
     public Sprite ButtonDone;
     public enum EnumScaleType { LINEAR, EXPONENTIAL};
     public enum EnumBonusType { MOVEMENT_SPEED, ATTACK_SPEED, ATTACK_POWER, CLICK_DAMAGE, PASSIVE_DAMAGE}
+    // Linear: static cost the price should increase per level. Exponential: Percent the cost should increase per level
+    public double costScaleFactor;
 
-    public void ToJSON()
-    {
-        Debug.Log("ToJSON");
-        string s = JsonUtility.ToJson(this);
-        Debug.Log(s);
-        //return s;
-    }
+
+
 
     string bonusTypeEnumToString(EnumBonusType b)
     {
@@ -55,14 +51,8 @@ public class UpgradeButtonBehaviorScript : MonoBehaviour
         return "";
     }
 
-    // Linear: static cost the price should increase per level. Exponential: Percent the cost should increase per level
-    public double costScaleFactor;
+  
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
