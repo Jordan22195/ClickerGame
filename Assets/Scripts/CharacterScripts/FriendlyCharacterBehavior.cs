@@ -9,14 +9,14 @@ using Assets.Scritps;
 public class FriendlyCharacterBehavior : MonoBehaviour
 {
 
-    enum animationState
+    public enum playerStateEnum
     {
         RUN = 0,
         IDLE = 1,
-        PUNCH = 2
+        COMBAT = 2
     };
 
-
+    public playerStateEnum playerState = playerStateEnum.RUN; 
     public int attackPower = 0;
     public float primaryAttackSpeed = 0.5f; // attacks per second
     public float secondaryAttackSpeed = .25f; // attacks per second
@@ -34,6 +34,8 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     public GameObject statusText;
     private CombatManager manager;
 
+
+    private Queue<string> animationQueue = new Queue<string>();
 
 
 
@@ -73,57 +75,57 @@ public class FriendlyCharacterBehavior : MonoBehaviour
 
 
     }
-	
 
-    void run(float elapsedTime)
+    public void Update()
     {
-        Vector3 movement = new Vector3(1f, 0f, 0f);
-        this.gameObject.transform.position += 
-            movement * 
-            (float)elapsedTime * 
-            (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) * 
-            Globals.pixelsPerMeter;
+        if (animationQueue.Count > 0)
+        {
+            string anim = animationQueue.Dequeue();
+            animator.SetTrigger(anim);
+        }
     }
+
 
     public void OnEnable()
     {
         CharacterType = chartype.FRIENDLY;
     }
 
+    public void endCombat()
+    {
+        Debug.Log("end Combat");
+        if(playerState == playerStateEnum.COMBAT)
+        {
+            idleState();
+        }
+    }
+
 
     public void idleState()
     {
+        Debug.Log("idle state");
+        playerState = playerStateEnum.IDLE;
         StopAllCoroutines();
-        animator.SetTrigger("idle");
+        animationQueue.Enqueue("idle");
     }
 
     public void runState()
     {
+        Debug.Log("run state");
+        playerState = playerStateEnum.RUN;
         StopAllCoroutines();
-        animator.SetTrigger("run");
+        animator.ResetTrigger("idle");
+        animationQueue.Enqueue("run");
 
-        StartCoroutine(runCoroutine());
     }
 
-
-    IEnumerator runCoroutine()
-    {
-        float then = Time.fixedTime;
-        float now = then;
-        
-        while (true)
-        {
-            now = Time.fixedTime;
-            run(now - then);
-            then = now;
-            yield return null;
-        }
-    }
 
     public void attackState()
     {
+        Debug.Log("attack state");
+        playerState = playerStateEnum.COMBAT;
         StopAllCoroutines();
-        animator.SetTrigger("idle");
+        animationQueue.Enqueue("idle");
 
         StartCoroutine(attackCoroutine());
     }
@@ -138,7 +140,7 @@ public class FriendlyCharacterBehavior : MonoBehaviour
             yield return new WaitForSeconds(secondaryAttackSpeed);
             attack();
             yield return new WaitForSeconds(primaryAttackSpeed);
-            animator.SetTrigger("idle");
+            animationQueue.Enqueue("idle");
         }
     }
 
@@ -151,7 +153,7 @@ public class FriendlyCharacterBehavior : MonoBehaviour
             int damage = (int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
             CombatManager.managerRef.updateDPS(damage);
             target.takeDamage(damage);
-            animator.SetTrigger("punch");
+            animationQueue.Enqueue("punch");
 
         }
     }

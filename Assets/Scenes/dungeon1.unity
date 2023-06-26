@@ -296,6 +296,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1749367570}
     m_Modifications:
+    - target: {fileID: 1602088150197551468, guid: ee0d34fecb592ee48892015019ce6936,
+        type: 3}
+      propertyPath: uniqueName
+      value: t1MS
+      objectReference: {fileID: 0}
     - target: {fileID: 1839799937036733695, guid: ee0d34fecb592ee48892015019ce6936,
         type: 3}
       propertyPath: upgrades.Array.data[0]
@@ -316,6 +321,16 @@ PrefabInstance:
       propertyPath: upgrades.Array.data[3]
       value: 
       objectReference: {fileID: 798982296}
+    - target: {fileID: 2043008632197613077, guid: ee0d34fecb592ee48892015019ce6936,
+        type: 3}
+      propertyPath: uniqueName
+      value: t1AP
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227065302644006186, guid: ee0d34fecb592ee48892015019ce6936,
+        type: 3}
+      propertyPath: uniqueName
+      value: t1CD
+      objectReference: {fileID: 0}
     - target: {fileID: 7629144586861565917, guid: ee0d34fecb592ee48892015019ce6936,
         type: 3}
       propertyPath: m_SortingLayerID
@@ -380,6 +395,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8877819016019488233, guid: ee0d34fecb592ee48892015019ce6936,
+        type: 3}
+      propertyPath: uniqueName
+      value: t1AS
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee0d34fecb592ee48892015019ce6936, type: 3}
@@ -960,7 +980,7 @@ GameObject:
   - component: {fileID: 567978691}
   - component: {fileID: 567978690}
   m_Layer: 5
-  m_Name: testbutton
+  m_Name: testbutton save
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1033,6 +1053,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1897320629}
         m_TargetAssemblyTypeName: UpgradeMenuBehaviorScript, Assembly-CSharp
         m_MethodName: save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1843771615}
+        m_TargetAssemblyTypeName: SaveableData, Assembly-CSharp
+        m_MethodName: saveToFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1556,7 +1588,7 @@ GameObject:
   - component: {fileID: 841368406}
   - component: {fileID: 841368405}
   m_Layer: 5
-  m_Name: testbutton (1)
+  m_Name: testbutton load
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1570,7 +1602,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841368403}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1385287778}
@@ -1579,7 +1611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 890, y: 306}
+  m_AnchoredPosition: {x: 989, y: 168}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &841368405
@@ -1629,6 +1661,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1897320629}
         m_TargetAssemblyTypeName: UpgradeMenuBehaviorScript, Assembly-CSharp
         m_MethodName: load
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1843771615}
+        m_TargetAssemblyTypeName: SaveableData, Assembly-CSharp
+        m_MethodName: loadFromFile
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2264,6 +2308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff20f9221f4236b4d9900915f77d91a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uniqueName: DungeonUIBehaviorScript
   levelTextGameObject: {fileID: 647509173}
   autoAdvanceToggle: {fileID: 539963920}
   goldText: {fileID: 719457070}

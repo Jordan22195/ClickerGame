@@ -12,20 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13bbcc0629c42f4ab8a981417e49d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterType: 0
-  statusText: {fileID: 5989974134407362819}
-  HPBar: {fileID: 5725929342255788242}
-  RedBar: {fileID: 5724492427521037990}
-  floatingCombatTextPrefab: {fileID: 3419873720302801080, guid: b3f6daaebedbd474e99100cf7cd70228,
-    type: 3}
+  playerState: 0
   attackPower: 0
-  attackSpeed: 0.5
+  primaryAttackSpeed: 0.5
+  secondaryAttackSpeed: 0.25
   clickDamage: 1
   moveSpeed: 1
   passiveDamage: 0
   sprite: {fileID: 1670682256514481326}
-  enemyTakeDamageEvent: {fileID: 11400000, guid: 6a7672c9d7af4614d88a37324a71d2f7,
-    type: 2}
+  CharacterType: 0
+  statusText: {fileID: 5989974134407362819}
 --- !u!114 &3213594138212169150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,7 +68,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 398631585}
         m_TargetAssemblyTypeName: FriendlyCharacterBehavior, Assembly-CSharp
-        m_MethodName: idleState
+        m_MethodName: endCombat
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

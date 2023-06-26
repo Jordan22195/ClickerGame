@@ -78,6 +78,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         CombatManager.managerRef.applyXP(XPvalue);
         sprite.transform.Rotate(0, 0, 270f);
+        this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
         enemyDieEvent.TriggerEvent();
 
         StartCoroutine(destroySelfCoroutine());
@@ -110,20 +111,23 @@ public class EnemyBehavior : MonoBehaviour
     {
         //damage -= stats.defense;
         //if (damage <= 0) damage = 1;
-        stats.currentHP -= damage;
-        updateHPBar();
-        if (stats.currentHP < 0) stats.currentHP = 0;
-        
-        //setStatusText("-" + damage.ToString());
-
-        GameObject clone = Instantiate(floatingCombatTextPrefab,
-            this.gameObject.transform.position,
-            Quaternion.identity);
-        clone.GetComponent<floatingCombatTextBehavior>().setFloatingCombatText("-" + damage);
-
-        if (stats.currentHP <= 0)
+        if (stats.currentHP > 0)
         {
-            die();
+            HPBar.SetActive(true);
+            RedBar.SetActive(true);
+            stats.currentHP -= damage;
+            updateHPBar();
+            if (stats.currentHP < 0) stats.currentHP = 0;
+
+            GameObject clone = Instantiate(floatingCombatTextPrefab,
+                this.gameObject.transform.position,
+                Quaternion.identity);
+            clone.GetComponent<floatingCombatTextBehavior>().setFloatingCombatText("-" + damage);
+
+            if (stats.currentHP <= 0)
+            {
+                die();
+            }
         }
     }
 
@@ -135,8 +139,7 @@ public class EnemyBehavior : MonoBehaviour
             enemyCollisionEvent.TriggerEvent();
             CombatManager.managerRef.registerEnemy(this);
 
-            HPBar.SetActive(true);
-            RedBar.SetActive(true);
+
 
         }
     }

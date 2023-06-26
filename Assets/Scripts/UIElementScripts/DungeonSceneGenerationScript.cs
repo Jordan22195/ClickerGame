@@ -6,7 +6,8 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Assets.Scritps;
 
-public class DungeonUIBehaviorScript : MonoBehaviour {
+[System.Serializable]
+public class DungeonSceneGenerationScript : SaveableData {
 
     public GameObject levelTextGameObject;
     public GameObject autoAdvanceToggle;
@@ -19,6 +20,9 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
 
     public GameObject Tree;
 
+    public GameObject EnemyPrefab;
+    private List<GameObject> enemyPrefabClones = new List<GameObject>();
+
 
     public int floorYPos;
 
@@ -28,9 +32,10 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
     public GameObject ascendButton;
 
 
-    public int chunksLoaded=-3;
+    public int chunksLoaded=0;
 
     public Vector3 cameraStartPos;
+    public Vector3 currentCameraPos;
     public int distanceTraveledInPixels;
     public int distanceTraveledInChunks;
     private Text levelText;
@@ -46,6 +51,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
         levelText = levelTextGameObject.GetComponent<Text>();
         cameraStartPos = cameraObj.transform.position;
         Globals.cameraObject = cameraObj;
+        chunksLoaded -= 4;
 
     }
 	
@@ -60,7 +66,7 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
 
         if(distanceTraveledInChunks > chunksLoaded -15)
         {
-            generateChunk();
+            generateChunk(chunksLoaded);
         }
 
     }
@@ -97,8 +103,17 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
             elapsedTime * 
             (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
             Globals.pixelsPerMeter;
+
+        CombatManager.managerRef.playerCharacter.gameObject.transform.position +=
+            movement *
+            (float)elapsedTime *
+            (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
+            Globals.pixelsPerMeter;
+
         distanceTraveledInPixels = (int)(cameraObj.transform.position.x - cameraStartPos.x);
         distanceTraveledInChunks = distanceTraveledInPixels / 1920;
+
+
     }
 
 
@@ -117,9 +132,10 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
         SceneManager.LoadScene("AscentionScreen", LoadSceneMode.Single);
     }
 
-    public void generateChunk()
+    public void generateChunk(int chunkNumber)
     {
-        int xLow = (chunksLoaded * 1920) + (int)cameraStartPos.x;
+        instantiateEnemy(EnemyPrefab, chunkNumber, chunkNumber / 5 + 1);
+        int xLow = (chunkNumber * 1920) + (int)cameraStartPos.x;
         int xHigh = xLow + Globals.chunkSize;
 
         for (int i = 0; i < 10; i ++)
@@ -189,6 +205,22 @@ public class DungeonUIBehaviorScript : MonoBehaviour {
         pos.x = x;
         pos.z = z;
         GameObject o = Instantiate(prefab, pos, prefab.transform.rotation);
+
+    }
+
+    public void instantiateEnemy(GameObject enemyPrefab, int chunkNumber, int level)
+    {
+        if (enemyPrefab == null)
+        {
+            Debug.Log("instantiateEnemy Error: empty prefab");
+            return;
+        }
+
+        Vector3 pos = CombatManager.managerRef.playerCharacter.gameObject.transform.position;
+        pos.x = Camera.main.transform.position.x + (chunkNumber * Globals.chunkSize);
+        GameObject clone = Instantiate(enemyPrefab, pos, Quaternion.identity);
+        clone.GetComponent<EnemyBehavior>().stats.setLevelandStats(level);
+        enemyPrefabClones.Add(clone);
 
     }
 }

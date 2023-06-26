@@ -40,8 +40,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5f319047db46e44dbc68a2686900184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterType: 1
-  statusText: {fileID: 7571194456303004865}
   enemyCollisionEvent: {fileID: 11400000, guid: 18b466b1db3722d4b87b725e3ad4d45d,
     type: 2}
   enemyDieEvent: {fileID: 11400000, guid: fbd74a24fe20460458437d87997dff6e, type: 2}
@@ -51,6 +49,8 @@ MonoBehaviour:
   floatingCombatTextPrefab: {fileID: 3419873720302801080, guid: b3f6daaebedbd474e99100cf7cd70228,
     type: 3}
   sprite: {fileID: 3250917416060840300}
+  CharacterType: 1
+  statusText: {fileID: 7571194456303004865}
 --- !u!1001 &4193661057664292290
 PrefabInstance:
   m_ObjectHideFlags: 0
