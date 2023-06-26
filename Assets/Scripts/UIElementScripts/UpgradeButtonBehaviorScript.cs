@@ -51,8 +51,16 @@ public class UpgradeButtonBehaviorScript : SaveableData
         return "";
     }
 
-  
 
+    public override void  Start()
+    {
+        base.Start();
+        if (level < maxLevel)
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonUp;
+        else
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDone;
+
+    }
 
     // Update is called once per frame
     void Update()

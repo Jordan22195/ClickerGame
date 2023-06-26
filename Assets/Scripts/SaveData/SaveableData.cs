@@ -11,7 +11,7 @@ public class SaveableData : MonoBehaviour
     public string uniqueName;
 
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
         loadFromFile();
     }

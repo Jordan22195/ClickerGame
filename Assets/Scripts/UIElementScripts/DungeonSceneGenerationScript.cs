@@ -40,12 +40,33 @@ public class DungeonSceneGenerationScript : SaveableData {
     public int distanceTraveledInChunks;
     private Text levelText;
 
+    private List<Chunk> Chunks = new List<Chunk>();
+
+    struct Chunk
+    {
+        public int chunkNumber;
+        public List<GameObject> objects;
+        public void addObject(GameObject o)
+        {
+            objects.Add(o);
+        }
+        public void destroy()
+        {
+            foreach (GameObject o in objects)
+            {
+
+                Destroy(o);
+            }
+            objects.Clear();
+        }
+    }
+
     Vector3 inFramePos;
     Vector3 outOfFramePos;
 
 
     // Use this for initialization
-    void Start () {
+    public override void Start () {
 
         ascendButton.SetActive(false);
         levelText = levelTextGameObject.GetComponent<Text>();
@@ -64,9 +85,17 @@ public class DungeonSceneGenerationScript : SaveableData {
             //ascendButton.SetActive(true);
         }
 
-        if(distanceTraveledInChunks > chunksLoaded -15)
+        // load 15 chunks out
+        if(distanceTraveledInChunks > chunksLoaded - 15)
         {
             generateChunk(chunksLoaded);
+        }
+
+        //destroy 10 chunks back
+        while(Chunks[0].chunkNumber < distanceTraveledInChunks - 10)
+        {
+            Chunks[0].destroy();
+            Chunks.RemoveAt(0);
         }
 
     }
@@ -134,7 +163,10 @@ public class DungeonSceneGenerationScript : SaveableData {
 
     public void generateChunk(int chunkNumber)
     {
-        instantiateEnemy(EnemyPrefab, chunkNumber, chunkNumber / 5 + 1);
+        Chunk chunk;
+        chunk.chunkNumber = chunkNumber;
+        chunk.objects = new List<GameObject>();
+        chunk.addObject(instantiateEnemy(EnemyPrefab, chunkNumber, chunkNumber / 5 + 1));
         int xLow = (chunkNumber * 1920) + (int)cameraStartPos.x;
         int xHigh = xLow + Globals.chunkSize;
 
@@ -142,7 +174,7 @@ public class DungeonSceneGenerationScript : SaveableData {
         {
             int x = Random.Range(xLow, xHigh);
             int z = Random.Range(200, 15000);
-            generateGroundObject(Tree,  z, x);
+            chunk.addObject( generateGroundObject(Tree,  z, x));
         }
 
         for (int i = 0; i < 2; i++)
@@ -151,7 +183,7 @@ public class DungeonSceneGenerationScript : SaveableData {
             int x = Random.Range(xLow, xHigh);
             int z = Random.Range(5000, 35000);
             int y = Random.Range(200, 20000);
-            generateObject(Clouds[index], y, z, x);
+            chunk.addObject(generateObject(Clouds[index], y, z, x));
         }
 
 
@@ -168,12 +200,12 @@ public class DungeonSceneGenerationScript : SaveableData {
             int x = xLow + i * (int)itemSize.x;
             for (int ii = 0; ii < 16; ii++)
             {
-                generateObject(grassBlock, floor, 0 + ii * (int)itemSize.z, x);
+                chunk.addObject(generateObject(grassBlock, floor, 0 + ii * (int)itemSize.z, x));
 
             }
         }
 
-
+        Chunks.Add(chunk);
         chunksLoaded++;
 
     }
@@ -196,7 +228,7 @@ public class DungeonSceneGenerationScript : SaveableData {
         return clone;
     }
 
-    public void generateObject(GameObject prefab, int y, int z, int x)
+    public GameObject generateObject(GameObject prefab, int y, int z, int x)
     {
         
 
@@ -205,22 +237,23 @@ public class DungeonSceneGenerationScript : SaveableData {
         pos.x = x;
         pos.z = z;
         GameObject o = Instantiate(prefab, pos, prefab.transform.rotation);
+        return o;
 
     }
 
-    public void instantiateEnemy(GameObject enemyPrefab, int chunkNumber, int level)
+    public GameObject instantiateEnemy(GameObject enemyPrefab, int chunkNumber, int level)
     {
         if (enemyPrefab == null)
         {
             Debug.Log("instantiateEnemy Error: empty prefab");
-            return;
+            return null;
         }
 
         Vector3 pos = CombatManager.managerRef.playerCharacter.gameObject.transform.position;
         pos.x = Camera.main.transform.position.x + (chunkNumber * Globals.chunkSize);
         GameObject clone = Instantiate(enemyPrefab, pos, Quaternion.identity);
         clone.GetComponent<EnemyBehavior>().stats.setLevelandStats(level);
-        enemyPrefabClones.Add(clone);
+        return clone;
 
     }
 }
