@@ -44,6 +44,7 @@ MonoBehaviour:
     type: 2}
   enemyDieEvent: {fileID: 11400000, guid: fbd74a24fe20460458437d87997dff6e, type: 2}
   enemyDestroyEvent: {fileID: 11400000, guid: 251c6e8d3f6a9df47985852eb92110ef, type: 2}
+  enemyClickEvent: {fileID: 11400000, guid: 4972d133bae600d40ba380f477094881, type: 2}
   HPBar: {fileID: 8450009527115080976}
   RedBar: {fileID: 8449767798224585572}
   floatingCombatTextPrefab: {fileID: 3419873720302801080, guid: b3f6daaebedbd474e99100cf7cd70228,

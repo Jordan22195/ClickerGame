@@ -9,6 +9,8 @@ using Assets.Scritps;
 [System.Serializable]
 public class DungeonSceneGenerationScript : SaveableData {
 
+    public GameObject Wisp;
+    public GameObject projectile;
     public GameObject levelTextGameObject;
     public GameObject autoAdvanceToggle;
     public TextMeshProUGUI goldText;
@@ -98,6 +100,14 @@ public class DungeonSceneGenerationScript : SaveableData {
             Chunks.RemoveAt(0);
         }
 
+
+
+    }
+
+    public void WispProjectile(Vector3 pos)
+    {
+        GameObject clone = Instantiate(projectile, Wisp.transform.position, projectile.transform.rotation);
+        clone.GetComponent<ProjectileBehavriorScript>().destination = pos;
     }
 
     public void stopRun()
@@ -139,8 +149,14 @@ public class DungeonSceneGenerationScript : SaveableData {
             (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
             Globals.pixelsPerMeter;
 
+        Wisp.gameObject.transform.position +=
+            movement *
+            (float)elapsedTime *
+            (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
+            Globals.pixelsPerMeter;
+
         distanceTraveledInPixels = (int)(cameraObj.transform.position.x - cameraStartPos.x);
-        distanceTraveledInChunks = distanceTraveledInPixels / 1920;
+        distanceTraveledInChunks = distanceTraveledInPixels / Globals.chunkSize;
 
 
     }
@@ -250,7 +266,7 @@ public class DungeonSceneGenerationScript : SaveableData {
         }
 
         Vector3 pos = CombatManager.managerRef.playerCharacter.gameObject.transform.position;
-        pos.x = Camera.main.transform.position.x + (chunkNumber * Globals.chunkSize);
+        pos.x = cameraStartPos.x + (chunkNumber * Globals.chunkSize);
         GameObject clone = Instantiate(enemyPrefab, pos, Quaternion.identity);
         clone.GetComponent<EnemyBehavior>().stats.setLevelandStats(level);
         return clone;

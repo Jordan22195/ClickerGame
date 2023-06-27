@@ -23,6 +23,8 @@ public class CombatManager : MonoBehaviour {
 
     public static CombatManager managerRef;
 
+    public GameObject projectile;
+
 
     
     public GameObject friendlyPrefab;
@@ -57,6 +59,8 @@ public class CombatManager : MonoBehaviour {
         SS,
         SSS
     }
+
+
 
 
     public void updateDPS(int d)

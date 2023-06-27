@@ -13,6 +13,7 @@ public class EnemyBehavior : MonoBehaviour
     public GameEvent enemyCollisionEvent;
     public GameEvent enemyDieEvent;
     public GameEvent enemyDestroyEvent;
+    public GameEventVector3 enemyClickEvent;
 
     public GameObject HPBar;
     public GameObject RedBar;
@@ -50,7 +51,7 @@ public class EnemyBehavior : MonoBehaviour
 
     void OnMouseDown()
     {
-        takeDamage((int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE) );
+        enemyClickEvent.TriggerEvent(this.transform.position);
     }
 
     public  void Start()
@@ -141,6 +142,11 @@ public class EnemyBehavior : MonoBehaviour
 
 
 
+        }
+        if (collision.gameObject.tag == "projectile")
+        {
+            takeDamage((int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE));
+            Destroy(collision.gameObject);
         }
     }
 
