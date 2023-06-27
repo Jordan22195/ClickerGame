@@ -28,7 +28,7 @@ public class UpgradeButtonBehaviorScript : SaveableData
     public enum EnumScaleType { LINEAR, EXPONENTIAL};
     public enum EnumBonusType { MOVEMENT_SPEED, ATTACK_SPEED, ATTACK_POWER, CLICK_DAMAGE, PASSIVE_DAMAGE}
     // Linear: static cost the price should increase per level. Exponential: Percent the cost should increase per level
-    public double costScaleFactor;
+    public float costScaleFactor;
 
 
 
@@ -84,7 +84,7 @@ public class UpgradeButtonBehaviorScript : SaveableData
 
     }
 
-    public double getBonus()
+    public float getBonus()
     {
         return BonusPerLevel * level;
     }
@@ -109,7 +109,7 @@ public class UpgradeButtonBehaviorScript : SaveableData
             }
             else
             {
-                cost = (int)((double)cost * costScaleFactor);
+                cost = (int)((float)cost * costScaleFactor);
             }
             
             level++;

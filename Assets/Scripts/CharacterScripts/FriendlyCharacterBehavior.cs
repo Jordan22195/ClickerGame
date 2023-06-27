@@ -21,7 +21,7 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     public float primaryAttackSpeed = 0.5f; // attacks per second
     public float secondaryAttackSpeed = .25f; // attacks per second
     public int clickDamage = 1;
-    public double moveSpeed = 1; // meters per second. todo: make this number make sense
+    public float moveSpeed = 1; // meters per second. todo: make this number make sense
     public int passiveDamage = 0; //dps?
     public GameObject sprite;
     private Animator animator;
@@ -135,11 +135,11 @@ public class FriendlyCharacterBehavior : MonoBehaviour
         
         while (true)
         {
-            yield return new WaitForSeconds(primaryAttackSpeed);
+            yield return new WaitForSeconds(1/CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED));
             attack();
-            yield return new WaitForSeconds(secondaryAttackSpeed);
+            yield return new WaitForSeconds(1/CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED)/2);
             attack();
-            yield return new WaitForSeconds(primaryAttackSpeed);
+            yield return new WaitForSeconds(1/CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED));
             animationQueue.Enqueue("idle");
         }
     }

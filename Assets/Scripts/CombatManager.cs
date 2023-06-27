@@ -6,10 +6,11 @@ using UnityEngine.Events;
 using System.Threading;
 using UnityEngine.SceneManagement;
 using Assets.Scritps;
+using UnityEngine.UI;
 
 public class CombatManager : MonoBehaviour {
 
-    public double TICK_TIME = 0.25;
+    public float TICK_TIME = 0.25f;
 
     public UpgradeMenuBehaviorScript characterStatUpgrades;
 
@@ -19,12 +20,11 @@ public class CombatManager : MonoBehaviour {
     private List<EnemyBehavior> EnemyCharacters = new List<EnemyBehavior>();
 
     public GameEvent combatManagerInitFinished;
-    public int gold = 50000;
+    public int gold = 0;
 
     public static CombatManager managerRef;
 
-    public GameObject projectile;
-
+    public GameObject ascendButton;
 
     
     public GameObject friendlyPrefab;
@@ -33,7 +33,6 @@ public class CombatManager : MonoBehaviour {
 
     public GameObject cameraObj;
 
-    private DateTime NextTick;
 
 
     public EnemyBehavior targetEnemy;
@@ -70,12 +69,21 @@ public class CombatManager : MonoBehaviour {
 
     public bool canAscend()
     {
-        return gold >= currencyToLevelUp;
+        return gold >= (float)Globals.getAscensionCostRequiement();
     }
 
     public float getPowerBarPercent()
     {
-        return gold / (float)currencyToLevelUp;
+        return gold / (float)Globals.getAscensionCostRequiement() ;
+    }
+
+    private void Update()
+    {
+        if (canAscend())
+        {
+            ascendButton.SetActive(true);
+        }
+
     }
 
     // Use this for initialization
@@ -85,7 +93,6 @@ public class CombatManager : MonoBehaviour {
         dps = new DPSClass();
         currencyToLevelUp = 100;
         Application.targetFrameRate = -1;
-        NextTick = DateTime.Now.AddSeconds(1);
 
         instatiateFriendly(friendlyPrefab, 0, "char1");
 
@@ -95,9 +102,9 @@ public class CombatManager : MonoBehaviour {
     }
 	
 
-    public double getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType statType)
+    public float getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType statType)
     {
-        double baseStat = 0;
+        float baseStat = 0;
         FriendlyCharacterBehavior c = (FriendlyCharacterBehavior)playerCharacter;
         if (statType == UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER)
         {
@@ -166,5 +173,11 @@ public class CombatManager : MonoBehaviour {
         EnemyCharacters[0].GetComponent<EnemyBehavior>().takeDamage(d);
         updateDPS(d);
         Debug.Log("screen click");
+    }
+
+
+    public void OpenAscensionScreen()
+    {
+        SceneManager.LoadScene("AscentionScreen", LoadSceneMode.Single);
     }
 }

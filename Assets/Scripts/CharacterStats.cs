@@ -14,7 +14,7 @@ public class CharacterStats {
     public int xpForNextLevel = 1;
     protected int _maxHP = 10;
     protected int _attack = 2;
-    protected double _defense = 0;
+    protected float _defense = 0;
     public int currentHP = 0;
     public int statPoints = 0;
 
@@ -70,7 +70,7 @@ public class CharacterStats {
         set { _attack = value; }
     }
 
-    public double defense
+    public float defense
     {
         get { return _defense; }
         set
@@ -113,7 +113,7 @@ public class CharacterStats {
                 _defense = 1;
             else
             {
-                _defense += 0.01 * numPoints;
+                _defense += 0.01f * numPoints;
             }
             statPoints -= numPoints;
 

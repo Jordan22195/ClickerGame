@@ -76,10 +76,16 @@ public class DungeonSceneGenerationScript : SaveableData {
         Globals.cameraObject = cameraObj;
         chunksLoaded -= 4;
 
+        // load 15 chunks out
+        if (distanceTraveledInChunks > chunksLoaded - 15)
+        {
+            generateChunk(chunksLoaded);
+        }
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         incrimentLevelText();
         goldText.text = "Gold: " + CombatManager.managerRef.gold.ToString();
         if(CombatManager.managerRef.canAscend())

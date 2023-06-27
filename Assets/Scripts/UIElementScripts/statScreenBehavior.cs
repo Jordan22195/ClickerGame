@@ -24,7 +24,7 @@ public class statScreenBehavior : MonoBehaviour
     private int tempHP;
     private int tempCurrentHP;
     private int tempAtt;
-    private double tempDef;
+    private float tempDef;
     private int tempPts;
 
     // Start is called before the first frame update
@@ -77,8 +77,8 @@ public class statScreenBehavior : MonoBehaviour
     {
         setGameObjectText(xpText, "XP: " + (statsRef.xp - statsRef.xpForCurrentLevel) +
 " / " + (statsRef.xpForNextLevel-statsRef.xpForCurrentLevel)
-+ " (" + (int)((double)(statsRef.xp - statsRef.xpForCurrentLevel) / 
-(double)(statsRef.xpForNextLevel-statsRef.xpForCurrentLevel) * 100)
++ " (" + (int)((float)(statsRef.xp - statsRef.xpForCurrentLevel) / 
+(float)(statsRef.xpForNextLevel-statsRef.xpForCurrentLevel) * 100)
 + "%)");
     }
 
@@ -164,7 +164,7 @@ public class statScreenBehavior : MonoBehaviour
                 }
                 
                 
-                tempDef += (0.01 * tempPts);
+                tempDef += (0.01f * (float)tempPts);
                 tempPts = 0;
             }
         }
@@ -174,7 +174,7 @@ public class statScreenBehavior : MonoBehaviour
                 tempDef = 1;
             else
             {
-                tempDef += 0.01;
+                tempDef += 0.01f;
             }
             tempPts -= 1;
         }

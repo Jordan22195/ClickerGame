@@ -98,6 +98,8 @@ public class EnemyBehavior : MonoBehaviour
     public void updateHPBar()
     {
         float p = (float)stats.currentHP / (float)stats.maxHP;
+        if (p > 100) p = 100f;
+        if (p < 0) p = 0f;
         Vector3 barscale = RedBar.transform.localScale;
         Vector3 barposition = RedBar.transform.localPosition;
         float barwidth = RedBar.GetComponent<SpriteRenderer>().size.x * barscale.x;
