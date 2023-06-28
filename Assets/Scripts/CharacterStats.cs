@@ -79,10 +79,11 @@ public class CharacterStats {
         }
     }
 
+    // enemy HP = newlevel
     public void setLevelandStats(int newlevel)
     {
         _level = newlevel;
-        _maxHP =  newlevel * 10;
+        _maxHP =  newlevel;
         _attack = (newlevel * 1)+1;
         _defense = newlevel * 1;
 

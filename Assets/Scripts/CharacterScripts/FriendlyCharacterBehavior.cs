@@ -96,6 +96,7 @@ public class FriendlyCharacterBehavior : MonoBehaviour
         Debug.Log("end Combat");
         if(playerState == playerStateEnum.COMBAT)
         {
+            StopAllCoroutines();
             idleState();
         }
     }
@@ -105,7 +106,6 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     {
         Debug.Log("idle state");
         playerState = playerStateEnum.IDLE;
-        StopAllCoroutines();
         animationQueue.Enqueue("idle");
     }
 
@@ -113,7 +113,6 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     {
         Debug.Log("run state");
         playerState = playerStateEnum.RUN;
-        StopAllCoroutines();
         animator.ResetTrigger("idle");
         animationQueue.Enqueue("run");
 
@@ -124,7 +123,6 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     {
         Debug.Log("attack state");
         playerState = playerStateEnum.COMBAT;
-        StopAllCoroutines();
         animationQueue.Enqueue("idle");
 
         StartCoroutine(attackCoroutine());
@@ -132,8 +130,8 @@ public class FriendlyCharacterBehavior : MonoBehaviour
 
     IEnumerator attackCoroutine()
     {
-        
-        while (true)
+
+        while (playerState == playerStateEnum.COMBAT) 
         {
             yield return new WaitForSeconds(1/CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED));
             attack();

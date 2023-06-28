@@ -24,6 +24,7 @@ public class DungeonSceneGenerationScript : SaveableData {
 
     public GameObject EnemyPrefab;
     private List<GameObject> enemyPrefabClones = new List<GameObject>();
+    public GameObject FairyPrefab;
 
 
     public int floorYPos;
@@ -106,8 +107,24 @@ public class DungeonSceneGenerationScript : SaveableData {
             Chunks.RemoveAt(0);
         }
 
+        fairySpawn();
 
+    }
 
+    float fairySpawnTime = 0;
+    void fairySpawn()
+    {
+        if(Time.fixedTime > fairySpawnTime)
+        {
+            Debug.Log("fairy");
+            Vector3 pos = Wisp.transform.position;
+            pos.x = Random.Range(pos.x - 500, pos.x);
+            pos.z = Random.Range(pos.z, pos.z+500);
+
+            fairySpawnTime = Random.Range(Time.fixedTime + 30f, Time.fixedTime + 60f);
+
+            Instantiate(FairyPrefab, pos, FairyPrefab.transform.rotation);
+        }
     }
 
     public void WispProjectile(Vector3 pos)
@@ -127,7 +144,7 @@ public class DungeonSceneGenerationScript : SaveableData {
 
         StartCoroutine(runCoroutine());
     }
-    IEnumerator runCoroutine()
+    public IEnumerator runCoroutine()
     {
         float then = Time.fixedTime;
         float now = then;
@@ -188,7 +205,11 @@ public class DungeonSceneGenerationScript : SaveableData {
         Chunk chunk;
         chunk.chunkNumber = chunkNumber;
         chunk.objects = new List<GameObject>();
-        chunk.addObject(instantiateEnemy(EnemyPrefab, chunkNumber, chunkNumber / 5 + 1));
+        if(chunkNumber > 0)
+        {
+            chunk.addObject(instantiateEnemy(EnemyPrefab, chunkNumber, chunkNumber / 5 + 1));
+
+        }
         int xLow = (chunkNumber * 1920) + (int)cameraStartPos.x;
         int xHigh = xLow + Globals.chunkSize;
 
