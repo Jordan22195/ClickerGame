@@ -123,7 +123,8 @@ public class DungeonSceneGenerationScript : SaveableData {
 
             fairySpawnTime = Random.Range(Time.fixedTime + 30f, Time.fixedTime + 60f);
 
-            Instantiate(FairyPrefab, pos, FairyPrefab.transform.rotation);
+            GameObject clone = Instantiate(FairyPrefab, pos, FairyPrefab.transform.rotation);
+            clone.GetComponent<FairyBehaviorScript>().value = distanceTraveledInChunks * 10;
         }
     }
 

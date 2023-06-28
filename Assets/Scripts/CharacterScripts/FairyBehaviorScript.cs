@@ -7,6 +7,7 @@ public class FairyBehaviorScript : MonoBehaviour
 {
     float YDir = 0;
     float despawnTime;
+    public  int value;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +48,7 @@ public class FairyBehaviorScript : MonoBehaviour
 
     private void OnMouseDown()
     {
+        CombatManager.managerRef.gold += value;
         Destroy(this.gameObject);
     }
 
