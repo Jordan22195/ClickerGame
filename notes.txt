@@ -1,0 +1,86 @@
+TODO:
+
+	- 
+
+- wisp move animation
+- on use powerups
+- attack speed upgrade
+
+- acension stat upgrades
+- asension menu
+- ascension skills
+- main screen menu icons
+	- primary upgrades
+- rework terrain generation to loop
+
+
+
+LONG TERM TODO:
+- aoe farm mode
+- tasks / quests
+- weapons - bottleneck of damage output
+	- can upgrade with essence to increase max damage
+	- unlock / buy better weapons
+
+
+
+TYPES OF UPGRADES
+
+__player__
+-attack damage
+-attack speed
+-crit chance
+-crit damage
+-aura damage
+-passive essence accumulation
+-move speed
+-impact damage
+
+
+__wisp__
+-click damage
+-click 'ammo'
+	- enegy bar that has to recharge
+-autoclick speed
+-passive/auto attack damaage
+-auto attack speed
+
+
+
+
+
+
+
+
+
+
+
+
+_main loop
+1.click button
+2.spend on powerup
+
+_loop 1
+1. click background thing for moderate bonus
+2. main loop
+
+
+___MATHS____
+
+power = meta_multiplier * (money)^.75 + basestats
+
+
+money = 2xlevel
+
+powerup cost = e^x, where x = tier * (1 + % dps increase)
+	-incriment cost = tier *(1 + (dps increase / number of incriments))
+
+
+
+
+
+
+
+
+
+

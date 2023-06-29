@@ -29,8 +29,6 @@ public class EnemyBehavior : MonoBehaviour
 
     private GameObject SceneManagerRef;
     public GameObject statusText;
-    private CombatManager manager;
-
 
 
 
@@ -169,7 +167,7 @@ public class EnemyBehavior : MonoBehaviour
 
     public void applyXP(int xpValue)
     {
-        stats.xp += xpValue;
+        CombatManager.managerRef.gold += this.stats.xp;
     }
 
 

@@ -20,7 +20,7 @@ public class CombatManager : MonoBehaviour {
     private List<EnemyBehavior> EnemyCharacters = new List<EnemyBehavior>();
 
     public GameEvent combatManagerInitFinished;
-    public int gold = 0;
+    public float gold = 0;
 
     public static CombatManager managerRef;
 
@@ -115,7 +115,6 @@ public class CombatManager : MonoBehaviour {
         else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) baseStat = c.moveSpeed;
         else if (statType == UpgradeButtonBehaviorScript.EnumBonusType.PASSIVE_DAMAGE) baseStat = c.passiveDamage;
 
-        baseStat += characterStatUpgrades.getUpgradeLinearIncrease(statType);
         baseStat *= characterStatUpgrades.getUpgradeMultiplier(statType);
 
         return baseStat;

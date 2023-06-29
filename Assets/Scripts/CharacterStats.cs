@@ -84,8 +84,7 @@ public class CharacterStats {
     {
         _level = newlevel;
         _maxHP =  newlevel;
-        _attack = (newlevel * 1)+1;
-        _defense = newlevel * 1;
+        _xp = _maxHP;
 
     }
 

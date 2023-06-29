@@ -9,20 +9,6 @@ public class UpgradeMenuBehaviorScript : MonoBehaviour
     [SerializeField]
     public List<UpgradeButtonBehaviorScript> upgrades;
 
-    public float getUpgradeLinearIncrease(UpgradeButtonBehaviorScript.EnumBonusType upgradeType)
-    {
-        float increase = 0;
-        foreach (UpgradeButtonBehaviorScript u in upgrades)
-        {
-            UpgradeButtonBehaviorScript upgrade = u.GetComponent<UpgradeButtonBehaviorScript>();
-            if (upgrade.bonusType == upgradeType && upgrade.bonusScaleType == UpgradeButtonBehaviorScript.EnumScaleType.LINEAR)
-            {
-                increase += u.GetComponent<UpgradeButtonBehaviorScript>().getBonus();
-            }
-
-        }
-        return increase;
-    }
 
     public float getUpgradeMultiplier(UpgradeButtonBehaviorScript.EnumBonusType upgradeType)
     {
@@ -30,7 +16,7 @@ public class UpgradeMenuBehaviorScript : MonoBehaviour
         foreach (UpgradeButtonBehaviorScript u in upgrades)
         {
             UpgradeButtonBehaviorScript upgrade = u.GetComponent<UpgradeButtonBehaviorScript>();
-            if (upgrade.bonusType == upgradeType && upgrade.bonusScaleType == UpgradeButtonBehaviorScript.EnumScaleType.EXPONENTIAL)
+            if (upgrade.bonusType == upgradeType)
             {
                 mult *= (1 + (u.GetComponent<UpgradeButtonBehaviorScript>().getBonus()/100));
             }

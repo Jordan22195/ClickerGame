@@ -208,7 +208,7 @@ public class DungeonSceneGenerationScript : SaveableData {
         chunk.objects = new List<GameObject>();
         if(chunkNumber > 0)
         {
-            chunk.addObject(instantiateEnemy(EnemyPrefab, chunkNumber, chunkNumber / 5 + 1));
+            chunk.addObject(instantiateEnemy(EnemyPrefab, chunkNumber, chunkNumber +5));
 
         }
         int xLow = (chunkNumber * 1920) + (int)cameraStartPos.x;

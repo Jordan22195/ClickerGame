@@ -6,15 +6,14 @@ using TMPro;
 [System.Serializable]
 public class UpgradeButtonBehaviorScript : SaveableData
 {
-
+    float[] tierBase = new float[] { 10, 20, 50, 200 };
 
     public string Name;
+    public int tier = 1;
+
     public EnumBonusType bonusType;
-    public EnumScaleType bonusScaleType;
-    public float BonusPerLevel = 1;
+    public float BonusPercentPerLevel = 10;
     public int maxLevel = 5;
-    public EnumScaleType costScaleType;
-    public int cost = 100;
     public int level = 0;
     public TextMeshProUGUI toolTipText;
     public TextMeshProUGUI costText;
@@ -25,10 +24,7 @@ public class UpgradeButtonBehaviorScript : SaveableData
     public Sprite ButtonDown;
     public Sprite ButtonUp;
     public Sprite ButtonDone;
-    public enum EnumScaleType { LINEAR, EXPONENTIAL};
     public enum EnumBonusType { MOVEMENT_SPEED, ATTACK_SPEED, ATTACK_POWER, CLICK_DAMAGE, PASSIVE_DAMAGE}
-    // Linear: static cost the price should increase per level. Exponential: Percent the cost should increase per level
-    public float costScaleFactor;
 
 
 
@@ -66,27 +62,27 @@ public class UpgradeButtonBehaviorScript : SaveableData
     void Update()
     {
         nameText.text = Name;
-        costText.text = "Cost: " + cost.ToString();
+        costText.text = "Cost: " + getUpgradeCost().ToString();
         levelText.text = "Lvl " + level.ToString() + "/" + maxLevel.ToString();
 
-        int b = (int)(BonusPerLevel);
-        if(bonusScaleType == EnumScaleType.EXPONENTIAL)
-            toolTipText.text = "Increase " + bonusTypeEnumToString(bonusType) + "  by " + b.ToString() + "%";
-        else
-            toolTipText.text = "Increase " + bonusTypeEnumToString(bonusType) + "  by " + b.ToString();
+        int b = (int)(BonusPercentPerLevel);
+        toolTipText.text = "Increase " + bonusTypeEnumToString(bonusType) + "  by " + b.ToString() + "%";
 
-
-
-        if (bonusScaleType == EnumScaleType.EXPONENTIAL)
-            totalBonusText.text = "+ " + getBonus().ToString() + "%";
-        else
-            totalBonusText.text = "+ " + getBonus().ToString();
+        totalBonusText.text = "+ " + getBonus().ToString() + "%";
 
     }
 
     public float getBonus()
     {
-        return BonusPerLevel * level;
+        return BonusPercentPerLevel * level;
+    }
+
+   public float getUpgradeCost()
+    {
+        float exp = 1.0f / 0.75f;
+        float mult = 1f + (getBonus() / 100) + (BonusPercentPerLevel / 100f);
+        float cost = Mathf.Pow(    (1f / 3f)  * tierBase[tier-1] * mult,  exp);
+        return cost;
     }
 
     private void OnMouseUp()
@@ -98,19 +94,12 @@ public class UpgradeButtonBehaviorScript : SaveableData
     }
     private void OnMouseDown()
     {
+        float cost = getUpgradeCost();
         if (CombatManager.managerRef.gold >= cost && level < maxLevel)
         {
             this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDown;
 
             CombatManager.managerRef.gold -= cost;
-            if (costScaleType == EnumScaleType.LINEAR)
-            {
-                cost += (int)costScaleFactor;
-            }
-            else
-            {
-                cost = (int)((float)cost * costScaleFactor);
-            }
             
             level++;
         }
