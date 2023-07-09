@@ -47,6 +47,8 @@ public class theButtonScript : MonoBehaviour
     private void OnMouseDown()
     {
         this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDown;
+        theButtonClickEvent.TriggerEvent();
+        triggerTime = Time.fixedTime + (1 / triggersPerSecond);
         buttonDown = true;
     }
 }

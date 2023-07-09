@@ -157,8 +157,6 @@ public class FriendlyCharacterBehavior : MonoBehaviour
         {
             
             int damage = (int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
-            damage += (int)storedPower;
-            storedPower = 0;
             CombatManager.managerRef.updateDPS(damage);
             target.takeDamage(damage);
             animationQueue.Enqueue("punch");
@@ -166,6 +164,21 @@ public class FriendlyCharacterBehavior : MonoBehaviour
         }
     }
 
+    public void clickAttack()
+    {
+        EnemyBehavior target = CombatManager.managerRef.getTargetEnemy();
+        if (target != null)
+        {
+
+            float damage = (int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE);
+            damage += storedPower;
+            storedPower = 0;
+            //CombatManager.managerRef.updateDPS(damage);
+            target.takeDamage(damage);
+            animationQueue.Enqueue("punch");
+
+        }
+    }
 
 
 
@@ -195,11 +208,11 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     {
         if(playerState == playerStateEnum.COMBAT)
         {
-            attack();
+            clickAttack();
         }
         else
         {
-            storedPower += (int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
+            storedPower += (int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.CLICK_DAMAGE);
         }
     }
 }

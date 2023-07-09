@@ -12,7 +12,7 @@ public class UpgradeButtonBehaviorScript : SaveableData
     public int tier = 1;
 
     public EnumBonusType bonusType;
-    public float BonusPercentPerLevel = 10;
+    public float BonusPercentPerLevel = 100;
     public int maxLevel = 5;
     public int level = 0;
     public TextMeshProUGUI toolTipText;
@@ -74,7 +74,8 @@ public class UpgradeButtonBehaviorScript : SaveableData
 
     public float getBonus()
     {
-        return BonusPercentPerLevel * level;
+        Debug.Log(bonusType.ToString() + " " + BonusPercentPerLevel + " " + level.ToString());
+        return (BonusPercentPerLevel * (float)level);
     }
 
    public float getUpgradeCost()

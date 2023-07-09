@@ -108,7 +108,7 @@ public class EnemyBehavior : MonoBehaviour
     }
 
 
-    public void takeDamage(int damage)
+    public void takeDamage(float damage)
     {
         //damage -= stats.defense;
         //if (damage <= 0) damage = 1;

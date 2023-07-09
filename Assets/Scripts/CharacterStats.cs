@@ -9,14 +9,14 @@ public class CharacterStats {
     public string name = "Name";
     protected int _level = 1;
 
-    protected int _xp = 1;
-    protected int _xpForCurrentLevel = 1;
-    public int xpForNextLevel = 1;
-    protected int _maxHP = 10;
-    protected int _attack = 2;
+    protected float _xp = 1;
+    protected float _xpForCurrentLevel = 1;
+    public float xpForNextLevel = 1;
+    protected float _maxHP = 10;
+    protected float _attack = 2;
     protected float _defense = 0;
-    public int currentHP = 0;
-    public int statPoints = 0;
+    public float currentHP = 0;
+    public float statPoints = 0;
 
     public int speed
     {
@@ -36,20 +36,20 @@ public class CharacterStats {
         }
     }
 
-    public int maxHP
+    public float maxHP
     {
         get { return _maxHP; }
         set { _maxHP = value; }
     }
 
 
-    public int xpForCurrentLevel
+    public float xpForCurrentLevel
     {
         get { return _xpForCurrentLevel; }
     }
 
 
-    public int xp
+    public float xp
     {
         get { return _xp; }
         set
@@ -65,7 +65,7 @@ public class CharacterStats {
         }
     }
 
-    public int attack
+    public float attack
     { get { return _attack;}
         set { _attack = value; }
     }

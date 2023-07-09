@@ -12,16 +12,19 @@ public class UpgradeMenuBehaviorScript : MonoBehaviour
 
     public float getUpgradeMultiplier(UpgradeButtonBehaviorScript.EnumBonusType upgradeType)
     {
-        float mult = 1;
+        float mult = 1f;
         foreach (UpgradeButtonBehaviorScript u in upgrades)
         {
             UpgradeButtonBehaviorScript upgrade = u.GetComponent<UpgradeButtonBehaviorScript>();
             if (upgrade.bonusType == upgradeType)
             {
-                mult *= (1 + (u.GetComponent<UpgradeButtonBehaviorScript>().getBonus()/100));
+                float bonus = u.GetComponent<UpgradeButtonBehaviorScript>().getBonus() / 100;
+                mult *= (1 + bonus);
+                Debug.Log(upgradeType.ToString() + " " + mult);
             }
             
         }
+        
         return mult;
     }
 

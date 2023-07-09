@@ -188,11 +188,11 @@ public class statScreenBehavior : MonoBehaviour
         {
             //confirmButton.SetActive(true);
             //resetButton.SetActive(true);
-            previewMode = true;
-            tempHP = statsRef.maxHP;
-            tempAtt = statsRef.attack;
-            tempDef = statsRef.defense;
-            tempPts = statsRef.statPoints;
+         //   previewMode = true;
+         //   tempHP = statsRef.maxHP;
+         //   tempAtt = statsRef.attack;
+         //   tempDef = statsRef.defense;
+          //  tempPts = statsRef.statPoints;
         }
     }
 
