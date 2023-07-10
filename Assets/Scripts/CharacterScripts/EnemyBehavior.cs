@@ -78,6 +78,7 @@ public class EnemyBehavior : MonoBehaviour
         CombatManager.managerRef.applyXP(XPvalue);
         sprite.transform.Rotate(0, 0, 270f);
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        this.gameObject.GetComponent<Rigidbody2D>().simulated = false;
         enemyDieEvent.TriggerEvent();
 
         StartCoroutine(destroySelfCoroutine());

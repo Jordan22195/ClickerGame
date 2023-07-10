@@ -74,7 +74,6 @@ public class UpgradeButtonBehaviorScript : SaveableData
 
     public float getBonus()
     {
-        Debug.Log(bonusType.ToString() + " " + BonusPercentPerLevel + " " + level.ToString());
         return (BonusPercentPerLevel * (float)level);
     }
 

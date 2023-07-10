@@ -20,7 +20,6 @@ public class UpgradeMenuBehaviorScript : MonoBehaviour
             {
                 float bonus = u.GetComponent<UpgradeButtonBehaviorScript>().getBonus() / 100;
                 mult *= (1 + bonus);
-                Debug.Log(upgradeType.ToString() + " " + mult);
             }
             
         }

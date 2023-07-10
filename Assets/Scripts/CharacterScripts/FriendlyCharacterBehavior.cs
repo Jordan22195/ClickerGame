@@ -81,7 +81,7 @@ public class FriendlyCharacterBehavior : MonoBehaviour
         if (animationQueue.Count > 0)
         {
             string anim = animationQueue.Dequeue();
-            animator.SetTrigger(anim);
+            //animator.SetTrigger(anim);
         }
 
         if(storedPower > 0)
@@ -103,10 +103,11 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     public void endCombat()
     {
         Debug.Log("end Combat");
-        if(playerState == playerStateEnum.COMBAT)
+        if (playerState == playerStateEnum.COMBAT)
         {
             StopAllCoroutines();
-            idleState();
+            animator.ResetTrigger("punch");
+            runState();
         }
     }
 
@@ -115,15 +116,15 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     {
         Debug.Log("idle state");
         playerState = playerStateEnum.IDLE;
-        animationQueue.Enqueue("idle");
+        //animationQueue.Enqueue("idle");
     }
 
     public void runState()
     {
         Debug.Log("run state");
         playerState = playerStateEnum.RUN;
-        animator.ResetTrigger("idle");
-        animationQueue.Enqueue("run");
+        animator.ResetTrigger("combat");
+        animator.SetTrigger("run");
 
     }
 
@@ -132,8 +133,7 @@ public class FriendlyCharacterBehavior : MonoBehaviour
     {
         Debug.Log("attack state");
         playerState = playerStateEnum.COMBAT;
-        animationQueue.Enqueue("idle");
-
+        animator.SetTrigger("combat");
         StartCoroutine(attackCoroutine());
     }
 
@@ -144,9 +144,6 @@ public class FriendlyCharacterBehavior : MonoBehaviour
         {
             attack();
             yield return new WaitForSeconds(1/CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED)/2);
-            attack();
-            yield return new WaitForSeconds(1/CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_SPEED)/2);
-           // animationQueue.Enqueue("idle");
         }
     }
 
@@ -156,10 +153,12 @@ public class FriendlyCharacterBehavior : MonoBehaviour
         if (target != null)
         {
             
-            int damage = (int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
-            CombatManager.managerRef.updateDPS(damage);
+            float damage = (int)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.ATTACK_POWER);
+            damage += storedPower;
+            storedPower = 0;
+            //CombatManager.managerRef.updateDPS(damage);
             target.takeDamage(damage);
-            animationQueue.Enqueue("punch");
+            animator.SetTrigger("punch");
 
         }
     }
@@ -175,7 +174,7 @@ public class FriendlyCharacterBehavior : MonoBehaviour
             storedPower = 0;
             //CombatManager.managerRef.updateDPS(damage);
             target.takeDamage(damage);
-            animationQueue.Enqueue("punch");
+            animator.SetTrigger("punch");
 
         }
     }
