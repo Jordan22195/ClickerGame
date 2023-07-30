@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: LiberationSans SDF Material
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: RATIOS_OFF _EMISSION
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -106,9 +106,9 @@ Material:
     - _Parallax: 0.02
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 0.9
+    - _ScaleRatioA: 1
     - _ScaleRatioB: 0.73125
-    - _ScaleRatioC: 0.80505
+    - _ScaleRatioC: 1
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
@@ -117,7 +117,7 @@ Material:
     - _SpecularPower: 2
     - _SrcBlend: 1
     - _Stencil: 0
-    - _StencilComp: 8
+    - _StencilComp: 0
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
@@ -134,7 +134,7 @@ Material:
     - _WeightNormal: 0
     - _ZWrite: 1
     m_Colors:
-    - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
+    - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}

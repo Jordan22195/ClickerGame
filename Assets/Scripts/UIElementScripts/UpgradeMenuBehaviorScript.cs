@@ -7,21 +7,15 @@ using TMPro;
 public class UpgradeMenuBehaviorScript : MonoBehaviour
 {
     [SerializeField]
-    public List<UpgradeButtonBehaviorScript> upgrades;
+    public List<UpgradeTierBehaviorScript> tiers;
 
 
     public float getUpgradeMultiplier(UpgradeButtonBehaviorScript.EnumBonusType upgradeType)
     {
         float mult = 1f;
-        foreach (UpgradeButtonBehaviorScript u in upgrades)
+        foreach (UpgradeTierBehaviorScript t in tiers)
         {
-            UpgradeButtonBehaviorScript upgrade = u.GetComponent<UpgradeButtonBehaviorScript>();
-            if (upgrade.bonusType == upgradeType)
-            {
-                float bonus = u.GetComponent<UpgradeButtonBehaviorScript>().getBonus() / 100;
-                mult *= (1 + bonus);
-            }
-            
+            mult *= t.getUpgradeMultiplier(upgradeType);
         }
         
         return mult;
@@ -40,17 +34,17 @@ public class UpgradeMenuBehaviorScript : MonoBehaviour
 
     public void save()
     {
-        foreach (UpgradeButtonBehaviorScript u in upgrades)
+        foreach (UpgradeTierBehaviorScript u in tiers)
         {
-            u.saveToFile();
+            u.save();
         }
     }
 
     public void load()
     {
-        foreach (UpgradeButtonBehaviorScript u in upgrades)
+        foreach (UpgradeTierBehaviorScript u in tiers)
         {
-            u.loadFromFile();
+            u.load();
         }
     }
 

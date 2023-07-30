@@ -21,13 +21,17 @@ public class UpgradeButtonBehaviorScript : SaveableData
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI totalBonusText;
     public GameObject icon;
-    public Sprite ButtonDown;
-    public Sprite ButtonUp;
-    public Sprite ButtonDone;
+    public Sprite ButtonActivated;
+    public Sprite ButtonDeactivated;
+    public Sprite ButtonComplete;
+    public SpriteRenderer buyButton;
     public enum EnumBonusType { MOVEMENT_SPEED, ATTACK_SPEED, ATTACK_POWER, CLICK_DAMAGE, PASSIVE_DAMAGE}
 
 
-
+    public bool isUpgradeComplete()
+    {
+        return level >= maxLevel;
+    }
 
     string bonusTypeEnumToString(EnumBonusType b)
     {
@@ -51,10 +55,10 @@ public class UpgradeButtonBehaviorScript : SaveableData
     public override void  Start()
     {
         base.Start();
-        if (level < maxLevel)
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonUp;
-        else
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDone;
+        ///if (level < maxLevel)
+          //  this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonUp;
+       // else
+         //   this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDone;
 
     }
 
@@ -87,17 +91,17 @@ public class UpgradeButtonBehaviorScript : SaveableData
 
     private void OnMouseUp()
     {
-        if (level < maxLevel)
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonUp;
-        else
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDone;
+        //if (level < maxLevel)
+       //     this.gameObject.GetComponent<SpriteRenderer>().sprite.;
+       // else
+       //     this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDone;
     }
     private void OnMouseDown()
     {
         float cost = getUpgradeCost();
         if (CombatManager.managerRef.gold >= cost && level < maxLevel)
         {
-            this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDown;
+         //   this.gameObject.GetComponent<SpriteRenderer>().sprite = ButtonDown;
 
             CombatManager.managerRef.gold -= cost;
             

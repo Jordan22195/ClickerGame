@@ -161,23 +161,26 @@ public class DungeonSceneGenerationScript : SaveableData {
     void run(float elapsedTime)
     {
         Vector3 movement = new Vector3(1f, 0f, 0f);
-        cameraObj.transform.position += 
-            movement * 
-            elapsedTime * 
+        float newXPos = (cameraObj.transform.position + movement *
+            elapsedTime *
             (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
-            Globals.pixelsPerMeter;
+            Globals.pixelsPerMeter).x;
 
-        CombatManager.managerRef.playerCharacter.gameObject.transform.position +=
-            movement *
-            (float)elapsedTime *
-            (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
-            Globals.pixelsPerMeter;
+        cameraObj.transform.position = 
+            new Vector3(newXPos, 
+            cameraObj.transform.position.y, 
+            cameraObj.transform.position.z);
 
-        Wisp.gameObject.transform.position +=
-            movement *
-            (float)elapsedTime *
-            (float)CombatManager.managerRef.getUpgradedStat(UpgradeButtonBehaviorScript.EnumBonusType.MOVEMENT_SPEED) *
-            Globals.pixelsPerMeter;
+
+        CombatManager.managerRef.playerCharacter.gameObject.transform.position = 
+            new Vector3(newXPos, 
+            CombatManager.managerRef.playerCharacter.gameObject.transform.position.y, 
+            CombatManager.managerRef.playerCharacter.gameObject.transform.position.z);
+
+        Wisp.gameObject.transform.position =
+                   new Vector3(newXPos,
+                   Wisp.gameObject.transform.position.y,
+                   Wisp.gameObject.transform.position.z);
 
         distanceTraveledInPixels = (int)(cameraObj.transform.position.x - cameraStartPos.x);
         distanceTraveledInChunks = distanceTraveledInPixels / Globals.chunkSize;
